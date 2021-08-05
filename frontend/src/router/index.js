@@ -3,6 +3,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Ajout des différentes pages du projet ----------------------------------------------
 const routes = [
   {
+    path: '/home',
+    name: 'Home',
+    component: () => import('../views/Home.vue')
+  },
+  
+  {
     path: '/wall',
     name: 'Wall',
     component: () => import('../views/Wall.vue')
