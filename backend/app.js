@@ -1,15 +1,16 @@
 const express = require("express");
-const sequelize = require("./config/db.config"); // On a besoin des informations de connexion à notre BDD
+const db = require("./models"); // Utilisation des modèles pour la BDD
+const path = require("path");
+
+// Import des routes ----------------------------------------------------------------------------------------
+const usersRoutes = require("./routes/authUsers.js"); 
 
 // Mise en place de l'app ---------------------------------------------------------------------------------------
 const app = express();
 
-// Importation des modèles permettant la création des tables -----------------------------------------
-const User = require('./models/User');
-
 // Middleware permettant d'éviter les erreurs CORS lors des communications back - front -----------------------------------------------------
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); 
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
@@ -21,24 +22,28 @@ app.use((req, res, next) => {
   next();
 });
 
-// Test requête ----------------------------------------------------
-app.use((req, res, next) => {
-  res.json({ message: "COUCOU" });
-  next();
-});
-
-// Test connexion BDD -----------------------------------------------
+// Test de connexion à la BDD ----------------------------------------------------------------
 const dataBaseTest = async function () {
   try {
-    await sequelize.authenticate();
+    await db.sequelize.authenticate();
     console.log("Connected to the database !");
   } catch (error) {
-    console.error("Unable to connect to the database :(", error);
+    console.error("Unable to connect to the database, too bad !", error);
   }
 };
 dataBaseTest();
 
+// Mise à jour de la BDD --------------------------------------------------------------------------------
+db.sequelize
+  .sync({ force: false })
+  .then(() => console.log("Database is updating !"))
+  .catch((error) => console.log("Oops, something wrong here !", error));
+
+// Utilisation des fonctionnalités ou packages -----------------------------------------------------------
 app.use(express.json()); // Remplace bodyParser sur les dernières versions de Express
 app.use(express.urlencoded({ extended: true })); // En complément de express.json
+
+// Déclaration des routes --------------------------------------------------------------------------------
+app.use("/api/auth", usersRoutes);
 
 module.exports = app;

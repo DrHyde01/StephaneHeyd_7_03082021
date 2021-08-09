@@ -3,7 +3,7 @@
     <form>
       <div>
         <input
-          v-model="mail"
+          v-model="email"
           class="w-full p-2 mb-6 border-b-2 border-gray-400 outline-none"
           type="text"
           placeholder="Votre adresse mail"

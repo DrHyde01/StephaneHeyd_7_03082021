@@ -1,7 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../config/db.config');
-
 // Création du modèle User qui servira à alimenter la table Users dans notre BDD --------------------------------------
+module.exports = (sequelize, Sequelize) => {
 const User = sequelize.define('User', {
 
     id: {
@@ -12,23 +10,23 @@ const User = sequelize.define('User', {
     },
 
     firstName: {
-        type: DataTypes.STRING(40),
+        type: Sequelize.STRING(40),
         allowNull: false
     },
 
     lastName: {
-        type: DataTypes.STRING(40),
+        type: Sequelize.STRING(40),
         allowNull: false
     },
 
-    pseudo: {
-        type: DataTypes.STRING(20),
+    username: {
+        type: Sequelize.STRING(20),
         allowNull: false,
         unique: true
     },
 
     email: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true,
         validate: {
@@ -37,20 +35,20 @@ const User = sequelize.define('User', {
     },
 
     password: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
 
     admin: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    }
+        type: Sequelize.BOOLEAN,
+        allowNull: true
+    },
 
+    description: {
+        type: Sequelize.STRING(100),
+        allowNull: true,
+    }
 });
 
-// Création de la table Users via la fonction sync --------------------------------------------------------------
-sequelize.sync({ force: true }) // Si la table existe déjà elle est recréee 
-    .then(() => console.log("Table User created !"))
-    .catch(error => console.log("Oops !", error));
-
-module.exports = User;
+return User;
+};
