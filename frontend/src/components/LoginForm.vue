@@ -3,10 +3,10 @@
     <form>
       <div>
         <input
-          v-model="email"
+          v-model="username"
           class="w-full p-2 mb-6 border-b-2 border-gray-400 outline-none"
           type="text"
-          placeholder="Votre adresse mail"
+          placeholder="Votre pseudo"
         />
         <input
           v-model="password"
@@ -17,7 +17,8 @@
       </div>
       <div>
         <button
-          type="submit"
+          type="button"
+          @click="logToAccount()"
           class="w-full bg-gray-500 hover:bg-gray-600 hover:shadow-xl text-white font-bold py-2 px-4 rounded"
           :disabled="!validatedFields"
           :class="{ 'opacity-25 cursor-not-allowed': !validatedFields }"
@@ -33,24 +34,33 @@
 export default {
   name: "loginForm",
 
-  data: function () {
+  data: function() {
     return {
-      email: "",
-      password: ""
-    }
+      username: "",
+      password: "",
+    };
   },
-  
+
   computed: {
     // Fonction qui va permettre de désactiver le bouton connexion si les champs ne sont pas remplus
     validatedFields: function() {
-      if (this.email != '' && this.password != '') {
+      if (this.usermane != "" && this.password != "") {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
-    }
-  }
+    },
+  },
+
+  methods: {
+    logToAccount: function() {
+      this.$store.dispatch("logAccount", {
+        username: this.username,
+        password: this.password,
+      });
+      this.$router.push({ path: "/wall" });
+    },
+  },
 };
 </script>
 

@@ -34,14 +34,14 @@
 
 <script>
 export default {
-  name: "Home",
+  name: 'Home',
   methods: {
     // Utilisation d'instances router pour créer des ancres
     toLogin() {
-      this.$router.push({ path: "/login" });
+      this.$router.push({ path: '/login' });
     },
     toSignup() {
-      this.$router.push({ path: "/signup" });
+      this.$router.push({ path: '/signup' });
     },
   },
 };

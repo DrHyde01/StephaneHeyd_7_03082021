@@ -1,13 +1,33 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
+import authUser from "../services/auth";
 
-export default createStore({
-  state: {
-  },
-  mutations: {
-  },
+const store = createStore({
+  state: {},
+  mutations: {},
   actions: {
+    createAccount: ({ commit }, userInfos) => {
+      commit;
+      authUser.signup(userInfos)
+        .then((response) => {
+          console.log(response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    },
+
+    logAccount: ({ commit }, userInfos) => {
+      commit;
+      authUser.login(userInfos)
+        .then((response) => {
+          console.log(response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    },
   },
-  modules: {
-    
-  }
-})
+  modules: {},
+});
+
+export default store;

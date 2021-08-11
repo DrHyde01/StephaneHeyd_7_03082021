@@ -25,6 +25,6 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require("../models/User.js")(sequelize, Sequelize); // Le model user fera appel à cette configuration
+db.user = require("../models/User.js")(sequelize, Sequelize); // Le modèle user fera appel à cette configuration
 
 module.exports = db;

@@ -1,6 +1,6 @@
 <template>
   <div class="shadow-md bg-gray-100 rounded-xl p-10 w-full">
-    <form @submit="handleSignup">
+    <form>
       <div>
         <input
           v-model="firstName"
@@ -34,7 +34,7 @@
         />
       </div>
       <div>
-        <button
+        <button type="button"
           @click="createAccount()"
           class="w-full bg-gray-500 hover:bg-gray-600 hover:shadow-xl text-white font-bold py-2 px-4 rounded"
           :disabled="!validatedFields"
@@ -68,7 +68,7 @@ export default {
       lastName: '',
       username: '',
       email: '',
-      password: '',
+      password: ''
     };
   },
 
@@ -91,7 +91,14 @@ export default {
 
   methods: {
     createAccount: function() {
-      console.log(this.firstName, this.lastName, this.username, this.email, this.password);
+      this.$store.dispatch('createAccount', {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        username: this.username,
+        email: this.email,
+        password: this.password
+      });
+      this.$router.push({ path: '/wall' });
     },
   },
 };
