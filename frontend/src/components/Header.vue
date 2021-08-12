@@ -14,7 +14,7 @@
       </div>
       <div class="flex flex-end">
         <!-- S'affiche uniquement si l'utilisateur est connecté -->
-        <template v-if="ifConnected">
+        <template v-if="status == 'isConnected'">
           <router-link to="/wall" class="text-white hover:text-pink-300 mx-3"
             >Mur</router-link
           >
@@ -42,9 +42,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex"; // Nous avons besoin d'une valeur du store Vuex pour gérer afficher des élements du header
+
 export default {
   name: "Header",
+
+  computed: {
+    ...mapState(["status"]), // Le statut "ifConnected" sera recherché dans le store
+  }
 };
+
+
 </script>
+
 
 <style></style>

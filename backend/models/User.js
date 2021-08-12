@@ -45,7 +45,12 @@ const User = sequelize.define('User', {
     },
 
     description: {
-        type: Sequelize.STRING(100),
+        type: Sequelize.STRING(500),
+        allowNull: true,
+    },
+
+    picture: {
+        type: Sequelize.STRING,
         allowNull: true,
     }
 });
