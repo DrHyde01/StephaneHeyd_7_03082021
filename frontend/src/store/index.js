@@ -6,7 +6,10 @@ import authUser from "../services/auth";
 const store = createStore({
   //plugins: [createPersistedState()], // Utilisation du plugin persistedstate afin de préserver le state 
 
-  state: {},
+  state: {
+    status: '',
+    token: localStorage.getItem('token'),
+  },
 
   mutations: {
     setStatus: function(state, status) {
@@ -40,6 +43,8 @@ const store = createStore({
         authUser
           .login(userInfos) 
           .then(function(response) {
+            const token = response.data.token // Le token est récupéré
+            localStorage.setItem('token', token) // Puis transmis au localStorage
             commit("setStatus", "isConnected", "");
             resolve(response.data);
           })

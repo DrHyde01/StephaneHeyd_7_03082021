@@ -1,11 +1,11 @@
-import apiConfig from "./apiService";
+import API from "./apiService";
 
 export default {
     signup(data) {
-        return apiConfig().post('auth/signup', data);
+        return API().post('auth/signup', data);
     },
 
     login(data) {
-        return apiConfig().post('auth/login', data);
+        return API().post('auth/login', data);
     }
 }
