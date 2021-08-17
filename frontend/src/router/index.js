@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "../store/index";
 
 // Ajout des différentes pages du projet ----------------------------------------------
 const routes = [
@@ -35,6 +36,7 @@ const routes = [
     component: () => import("../views/Wall.vue"),
     meta: {
       title: "Groupomania - Mur",
+      requiresAuth: true, // Authentification requise, cf fonction beforeEach plus bas
     }
   },
 
@@ -44,6 +46,7 @@ const routes = [
     component: () => import("../views/Profil.vue"),
     meta: {
       title: "Groupomania - Profil",
+      requiresAuth: true,
     }
   },
 
@@ -63,8 +66,21 @@ const router = createRouter({
   routes,
 });
 
+// Cette fonction empêche l'accès à certaines pages si l'user n'est pas authentifié
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) { // On utiliser les getters pour la vérification
+      next()
+      return
+    }
+    next('/login') // Dans le cas échéant l'user est redirigé vers la page de connexion
+    alert("Halte là ma grande ! Que fais-tu sur cette page ? Va te connecter sous peine d'une déculotée ! "); // NE PAS LAISSER ! ❌
+  } else {
+    next()
+  }
+})
 
-// Function permettant de mettre à jour le titre de la page en fonction du routeur
+// Fonction permettant de mettre à jour le titre de la page en fonction du routeur
 router.afterEach((to, from) => {
   console.log(from, to);
   document.title = to.meta.title;

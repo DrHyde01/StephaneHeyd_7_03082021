@@ -48,7 +48,7 @@
       </div>
       <!-- Un message d'erreur apparaît si le formulaire n'est pas valide -->
       <div>
-        <p v-if="status == 'errorCreate'" class="p-2 text-center text-red-400">
+        <p v-if="status == 'error'" class="p-2 text-center text-red-400">
           Inscription impossible, veuillez vérifier les informations
           renseignées.
         </p>

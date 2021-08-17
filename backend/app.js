@@ -3,7 +3,7 @@ const db = require("./models"); // Utilisation des modèles pour la BDD
 const path = require("path");
 
 // Import des routes ----------------------------------------------------------------------------------------
-const usersRoutes = require("./routes/authUsers.js"); 
+const usersRoutes = require("./routes/authUsers.js");
 
 // Mise en place de l'app ---------------------------------------------------------------------------------------
 const app = express();

@@ -41,7 +41,8 @@ const User = sequelize.define('User', {
 
     admin: {
         type: Sequelize.BOOLEAN,
-        allowNull: true
+        allowNull: false,
+        default: false 
     },
 
     description: {

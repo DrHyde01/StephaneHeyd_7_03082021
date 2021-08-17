@@ -5,8 +5,11 @@
 </template>
 
 <script>
+
 export default {
     name: 'Wall',
-    components: {}
+    components: {},
 }
+
+
 </script>

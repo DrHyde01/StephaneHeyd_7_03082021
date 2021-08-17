@@ -14,14 +14,17 @@
       </div>
       <div class="flex flex-end">
         <!-- S'affiche uniquement si l'utilisateur est connecté -->
-        <template v-if="status == 'isConnected'">
+        <template v-if="status == 'succes'">
           <router-link to="/wall" class="text-white hover:text-pink-300 mx-3"
             >Mur</router-link
           >
           <router-link to="/profil" class="text-white hover:text-pink-300 mx-3"
             >Profil</router-link
           >
-          <router-link to="/" class="text-white hover:text-pink-300 mx-3"
+          <router-link
+            to="/login"
+            @click="logOut()"
+            class="text-white font-bold hover:text-red-600 mx-3"
             >Déconnexion</router-link
           >
         </template>
@@ -35,7 +38,6 @@
             >Inscription</router-link
           >
         </template>
-
       </div>
     </nav>
   </div>
@@ -49,11 +51,16 @@ export default {
 
   computed: {
     ...mapState(["status"]), // Le statut "ifConnected" sera recherché dans le store
-  }
+  },
+
+  methods: {
+    logOut: function() {
+      this.$store.dispatch("logOut").then(() => {
+        this.$router.push("/login");
+      });
+    },
+  },
 };
-
-
 </script>
-
 
 <style></style>

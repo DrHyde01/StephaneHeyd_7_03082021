@@ -28,7 +28,7 @@
         </button>
       </div>
       <div>
-        <p v-if="status == 'errorLogin'" class="p-2 text-center text-red-400"> Identifiant ou mot de passe incorrect.</p>
+        <p v-if="status == 'error'" class="p-2 text-center text-red-400"> Identifiant ou mot de passe incorrect.</p>
       </div>
     </form>
   </div>
