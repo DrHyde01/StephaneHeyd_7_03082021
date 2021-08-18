@@ -35,7 +35,8 @@ const store = createStore({
   },
 
   getters: {
-    isLoggedIn: (state) => !!state.token, // Nécessaire pour vérifier si l'user est authentifié
+    // Nécessaire pour vérifier si l'user est authentifié
+    isLoggedIn: (state) => !!state.token,  // !! convertit la valeur en boolean et fixe à true
     authStatus: (state) => state.status,
   },
 

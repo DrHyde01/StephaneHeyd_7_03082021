@@ -31,10 +31,9 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
   User.findOne({
     where: {
-      username: req.body.username
-    }
-  })
-  .then((user) => {
+      username: req.body.username,
+    },
+  }).then((user) => {
     if (!user) {
       return res.status(401).json({ error: "Utilisateur inexistant !" }); // Si non un message d'erreur est retourné
     }
@@ -57,4 +56,50 @@ exports.login = (req, res, next) => {
       })
       .catch((error) => res.status(500).json({ error }));
   });
+};
+
+// Récupération des informations d'un user ------------------------------------------------------------------------
+exports.getUser = (req, res, next) => {
+  User.findOne({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((user) => res.status(200).json({ user }))
+
+    .catch((error) => res.status(500).json({ error }));
+};
+
+// Récupération de tout les users -----------------------------------------------------------------------------
+exports.getAllUsers = (req, res, next) => {
+  User.findAll({
+    attributes: [
+      // Le tableau correspond aux informations demandées
+      "id",
+      "firstName",
+      "lastName",
+      "username",
+      "email",
+      "description",
+      "picture",
+    ],
+  })
+    .then((users) => res.status(200).json({ users }))
+
+    .catch((error) => res.status(500).json({ error }));
+};
+
+// Suppression d'un user ---------------------------------------------------------------------------------------
+exports.deleteUser = (req, res, next) => {
+  User.findOne({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then(() => {
+      User.destroy({ where: { id: req.params.id} });
+      res.status(200).json({ message: "Compte supprimé !" });
+    })
+
+    .catch((error) => res.status(500).json({ error }));
 };

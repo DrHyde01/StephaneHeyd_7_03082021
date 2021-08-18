@@ -45,5 +45,6 @@ app.use(express.urlencoded({ extended: true })); // En complément de express.js
 
 // Déclaration des routes --------------------------------------------------------------------------------
 app.use("/api/auth", usersRoutes);
+app.use("/api/", usersRoutes);
 
 module.exports = app;

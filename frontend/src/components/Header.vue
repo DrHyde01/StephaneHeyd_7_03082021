@@ -50,7 +50,7 @@ export default {
   name: "Header",
 
   computed: {
-    ...mapState(["status"]), // Le statut "ifConnected" sera recherché dans le store
+    ...mapState(["status"]), // Le statut "succes" sera recherché dans le store
   },
 
   methods: {

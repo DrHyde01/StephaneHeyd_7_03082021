@@ -74,7 +74,7 @@ router.beforeEach((to, from, next) => {
       return
     }
     next('/login') // Dans le cas échéant l'user est redirigé vers la page de connexion
-    alert("Halte là ma grande ! Que fais-tu sur cette page ? Va te connecter sous peine d'une déculotée ! "); // NE PAS LAISSER ! ❌
+    alert("Bien essayé mais il va falloir se connecter ! 😀"); // NE PAS LAISSER ! ❌
   } else {
     next()
   }
