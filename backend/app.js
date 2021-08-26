@@ -3,7 +3,7 @@ const db = require("./models"); // Utilisation des modèles pour la BDD
 const path = require("path");
 
 // Import des routes ----------------------------------------------------------------------------------------
-const usersRoutes = require("./routes/authUsers.js");
+const usersRoutes = require("./routes/users.js");
 
 // Mise en place de l'app ---------------------------------------------------------------------------------------
 const app = express();
@@ -35,13 +35,15 @@ dataBaseTest();
 
 // Mise à jour de la BDD --------------------------------------------------------------------------------
 db.sequelize
-  .sync({ force: false })
+  .sync({ alter: true })
   .then(() => console.log("Database is updating !"))
   .catch((error) => console.log("Oops, something wrong here !", error));
 
 // Utilisation des fonctionnalités ou packages -----------------------------------------------------------
 app.use(express.json()); // Remplace bodyParser sur les dernières versions de Express
 app.use(express.urlencoded({ extended: true })); // En complément de express.json
+app.use('/images', express.static(path.join(__dirname, 'images'))); // Pour que Express gère le dossier images de manière statique à chaque requête 
+
 
 // Déclaration des routes --------------------------------------------------------------------------------
 app.use("/api/auth", usersRoutes);

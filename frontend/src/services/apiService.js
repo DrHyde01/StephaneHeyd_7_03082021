@@ -12,7 +12,7 @@ export default () => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      "Authorization" : `${store.state.token}`, // Récupération du token à partir du store
+      "Authorization" : `Bearer ${store.state.token}`, // Récupération du token à partir du store
     },
   });
 };

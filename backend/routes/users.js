@@ -11,6 +11,7 @@ router.post('/signup', pwdCtrl, userCtrl.signup); // Création d'un nouvel user 
 router.post('/login', userCtrl.login); // Connexion d'un user existant 
 router.get('/accounts', auth, userCtrl.getAllUsers); // Récupération de tout les users
 router.get('/accounts/:id', auth, userCtrl.getUser); // Récupération des informations d'un user
+router.put('/accounts/:id', auth, userCtrl.updateUser); // Mise à jour d'un user
 router.delete('/accounts/:id', auth, userCtrl.deleteUser); // Suppression d'un user
 
 module.exports = router; // Exportation du router

@@ -44,7 +44,7 @@ const store = createStore({
     // Création de l'user -----------------------------------------------
     createAccount: ({ commit }, userInfos) => {
       return new Promise((resolve, reject) => {
-        commit("AUTH_REQ");
+        commit("AUTH_REQ", "loading");
         authUser
           .signup(userInfos) // userInfos correspond aux données renseignées dans le formulaire
           .then(function(response) {
@@ -61,14 +61,14 @@ const store = createStore({
     // Connexion de l'user ----------------------------------------------
     logToAccount: ({ commit }, userInfos) => {
       return new Promise((resolve, reject) => {
-        commit("AUTH_REQ");
+        commit("AUTH_REQ", "loading");
         authUser
           .login(userInfos)
           .then(function(response) {
             const token = response.data.token; // Le token est récupéré
+            console.log("token:", token);
             localStorage.setItem("token", token); // Puis transmis au localStorage
             commit("AUTH_SUCCES", token);
-            // console.log("token:", token);
             resolve(response.data);
           })
           .catch(function(error) {

@@ -2,6 +2,7 @@ const db = require("../models");
 const User = db.user;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
 const Op = db.Sequelize.Op;
 
@@ -89,6 +90,26 @@ exports.getAllUsers = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+// Mise à jour d'un user -------------------------------------------------------------------------------------
+exports.updateUser = (req, res, next) => {
+  User.findOne({
+    where: {
+      id: req.params.id,
+    },
+  }).then(() => {
+    User.update({
+      where: {
+        firstName: req.body.firstName,
+      },
+    });
+    res
+      .status(200)
+      .json({ message: "Compte mis à jour !" })
+
+      .catch((error) => res.status(500).json({ error }));
+  });
+};
+
 // Suppression d'un user ---------------------------------------------------------------------------------------
 exports.deleteUser = (req, res, next) => {
   User.findOne({
@@ -96,9 +117,17 @@ exports.deleteUser = (req, res, next) => {
       id: req.params.id,
     },
   })
-    .then(() => {
-      User.destroy({ where: { id: req.params.id} });
-      res.status(200).json({ message: "Compte supprimé !" });
+    .then((user) => {
+      if (user.picture !== null) { // Si photo de profil présente la supprime du répertoire, puis on supprime l'user de la BDD 
+        const filename = user.imageUrl.split("/images/")[1]; 
+        fs.unlink(`images/${filename}`, () => {
+          User.destroy({ where: { id: req.params.id } });
+          res.status(200).json({ message: "Compte supprimé !" });
+        });
+      } else { // Sinon on supprime uniquement l'user
+        User.destroy({ where: { id: req.params.id } });
+        res.status(200).json({ message: "Compte supprimé !" });
+      }
     })
 
     .catch((error) => res.status(500).json({ error }));

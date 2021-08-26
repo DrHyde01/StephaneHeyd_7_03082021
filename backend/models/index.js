@@ -24,9 +24,11 @@ db.sequelize = sequelize;
 db.user = require("../models/User.js")(sequelize, Sequelize);
 db.post = require("../models/Post.js")(sequelize, Sequelize);
 db.comment = require("../models/Comment.js")(sequelize, Sequelize);
+db.like = require("../models/Like.js")(sequelize, Sequelize);
 
 // Mise en place des associations entre tables ----------------------------------
 db.user.hasMany(db.comment);
 db.user.hasMany(db.post);
+db.user.hasMany(db.like);
 
 module.exports = db;
