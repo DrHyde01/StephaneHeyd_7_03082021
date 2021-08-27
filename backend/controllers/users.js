@@ -92,22 +92,35 @@ exports.getAllUsers = (req, res, next) => {
 
 // Mise à jour d'un user -------------------------------------------------------------------------------------
 exports.updateUser = (req, res, next) => {
+  const userObject = req.file // On vérifie si req.file est existant
+    ? {
+        ...JSON.parse(req.body.user), // Si oui on traîte la nouvelle image
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
+      }
+    : { ...req.body }; // Si non on traîte uniquement le nouvel objet
   User.findOne({
+    // On recherche l'user en fonction de son id
     where: {
       id: req.params.id,
     },
-  }).then(() => {
-    User.update({
-      where: {
-        firstName: req.body.firstName,
-      },
-    });
-    res
-      .status(200)
-      .json({ message: "Compte mis à jour !" })
-
-      .catch((error) => res.status(500).json({ error }));
-  });
+  })
+    .then((user) => {
+      if (user) {
+        User.update(userObject, {
+          // Puis on le met à jour en fonction des infos renseignées
+          where: { id: req.params.id },
+        })
+          .then((user) =>
+            res.status(200).json({ message: "Profil mis à jour !" })
+          )
+          .catch((error) => res.status(400).json({ error }));
+      } else {
+        res.status(404).json({ error: "Utilisateur inexistant !" });
+      }
+    })
+    .catch((error) => res.status(500).json({ error }));
 };
 
 // Suppression d'un user ---------------------------------------------------------------------------------------
@@ -118,13 +131,15 @@ exports.deleteUser = (req, res, next) => {
     },
   })
     .then((user) => {
-      if (user.picture !== null) { // Si photo de profil présente la supprime du répertoire, puis on supprime l'user de la BDD 
-        const filename = user.imageUrl.split("/images/")[1]; 
+      if (user.picture !== null) {
+        // Si photo de profil présente la supprime du répertoire, puis on supprime l'user de la BDD
+        const filename = user.imageUrl.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
           User.destroy({ where: { id: req.params.id } });
           res.status(200).json({ message: "Compte supprimé !" });
         });
-      } else { // Sinon on supprime uniquement l'user
+      } else {
+        // Sinon on supprime uniquement l'user
         User.destroy({ where: { id: req.params.id } });
         res.status(200).json({ message: "Compte supprimé !" });
       }
