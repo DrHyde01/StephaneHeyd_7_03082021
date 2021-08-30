@@ -4,6 +4,7 @@ const path = require("path");
 
 // Import des routes ----------------------------------------------------------------------------------------
 const usersRoutes = require("./routes/users.js");
+const postsRoutes = require("./routes/posts.js");
 
 // Mise en place de l'app ---------------------------------------------------------------------------------------
 const app = express();
@@ -46,7 +47,8 @@ app.use('/images', express.static(path.join(__dirname, 'images'))); // Pour que 
 
 
 // Déclaration des routes --------------------------------------------------------------------------------
-app.use("/api/auth", usersRoutes);
-app.use("/api/", usersRoutes);
+app.use("/api/users/", usersRoutes);
+app.use("/api/posts/", postsRoutes);
+
 
 module.exports = app;

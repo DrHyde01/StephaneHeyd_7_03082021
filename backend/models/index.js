@@ -21,14 +21,49 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Necessaire à la création ou la MAJ de nos tables ------------------------------
-db.user = require("../models/User.js")(sequelize, Sequelize);
-db.post = require("../models/Post.js")(sequelize, Sequelize);
-db.comment = require("../models/Comment.js")(sequelize, Sequelize);
-db.like = require("../models/Like.js")(sequelize, Sequelize);
+db.User = require("../models/User.js")(sequelize, Sequelize);
+db.Post = require("../models/Post.js")(sequelize, Sequelize);
+db.Comment = require("../models/Comment.js")(sequelize, Sequelize);
+db.Like = require("../models/Like.js")(sequelize, Sequelize);
 
 // Mise en place des associations entre tables ----------------------------------
-db.user.hasMany(db.comment);
-db.user.hasMany(db.post);
-db.user.hasMany(db.like);
+db.User.hasMany(db.Post);
+db.User.hasMany(db.Comment);
+db.User.hasMany(db.Like);
+
+db.Post.hasMany(db.Comment);
+db.Post.hasMany(db.Like);
+
+db.Post.belongsTo(db.User, {
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: "CASCADE",
+});
+db.Comment.belongsTo(db.User, {
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: "CASCADE",
+});
+db.Like.belongsTo(db.User, {
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: "CASCADE",
+});
+
+db.Comment.belongsTo(db.Post, {
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: "CASCADE",
+});
+db.Like.belongsTo(db.Post, {
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: "CASCADE",
+});
 
 module.exports = db;

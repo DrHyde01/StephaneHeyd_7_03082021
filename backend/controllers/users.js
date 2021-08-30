@@ -1,5 +1,4 @@
 const db = require("../models");
-const User = db.user;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
@@ -11,7 +10,7 @@ exports.signup = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
-      User.create({
+      db.User.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         username: req.body.username,
@@ -30,7 +29,7 @@ exports.signup = (req, res, next) => {
 
 // Gestion de la connexion d'un utilisateur existant -----------------------------------------------------------------------------
 exports.login = (req, res, next) => {
-  User.findOne({
+  db.User.findOne({
     where: {
       username: req.body.username,
     },
@@ -46,10 +45,10 @@ exports.login = (req, res, next) => {
         }
         res.status(200).json({
           // Si OK un token est renvoyé au frontend avec un user id
-          userId: user._id,
+          userId: user.id,
           token: jwt.sign(
             // Sign permet d'encoder un nouveau token
-            { userId: user._id },
+            { userId: user.id },
             "RANDOM_TOKEN_SECRET",
             { expiresIn: "24h" }
           ),
@@ -61,7 +60,7 @@ exports.login = (req, res, next) => {
 
 // Récupération des informations d'un user ------------------------------------------------------------------------
 exports.getUser = (req, res, next) => {
-  User.findOne({
+  db.User.findOne({
     where: {
       id: req.params.id,
     },
@@ -73,7 +72,7 @@ exports.getUser = (req, res, next) => {
 
 // Récupération de tout les users -----------------------------------------------------------------------------
 exports.getAllUsers = (req, res, next) => {
-  User.findAll({
+  db.User.findAll({
     attributes: [
       // Le tableau correspond aux informations demandées
       "id",
@@ -96,11 +95,11 @@ exports.updateUser = (req, res, next) => {
     ? {
         ...JSON.parse(req.body.user), // Si oui on traîte la nouvelle image
         imageUrl: `${req.protocol}://${req.get("host")}/images/${
-          req.file.filename
+          req.body.filename
         }`,
       }
     : { ...req.body }; // Si non on traîte uniquement le nouvel objet
-  User.findOne({
+  db.User.findOne({
     // On recherche l'user en fonction de son id
     where: {
       id: req.params.id,
@@ -108,7 +107,7 @@ exports.updateUser = (req, res, next) => {
   })
     .then((user) => {
       if (user) {
-        User.update(userObject, {
+        db.User.update(userObject, {
           // Puis on le met à jour en fonction des infos renseignées
           where: { id: req.params.id },
         })
@@ -125,7 +124,7 @@ exports.updateUser = (req, res, next) => {
 
 // Suppression d'un user ---------------------------------------------------------------------------------------
 exports.deleteUser = (req, res, next) => {
-  User.findOne({
+  db.User.findOne({
     where: {
       id: req.params.id,
     },
@@ -135,12 +134,12 @@ exports.deleteUser = (req, res, next) => {
         // Si photo de profil présente la supprime du répertoire, puis on supprime l'user de la BDD
         const filename = user.imageUrl.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
-          User.destroy({ where: { id: req.params.id } });
+          db.User.destroy({ where: { id: req.params.id } });
           res.status(200).json({ message: "Compte supprimé !" });
         });
       } else {
         // Sinon on supprime uniquement l'user
-        User.destroy({ where: { id: req.params.id } });
+        db.User.destroy({ where: { id: req.params.id } });
         res.status(200).json({ message: "Compte supprimé !" });
       }
     })
