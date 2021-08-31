@@ -52,6 +52,7 @@ exports.login = (req, res, next) => {
             "RANDOM_TOKEN_SECRET",
             { expiresIn: "24h" }
           ),
+            message: "Bonjour " + user.username + " ! 🙂"
         });
       })
       .catch((error) => res.status(500).json({ error }));
@@ -112,11 +113,11 @@ exports.updateUser = (req, res, next) => {
           where: { id: req.params.id },
         })
           .then((user) =>
-            res.status(200).json({ message: "Profil mis à jour !" })
+            res.status(200).json({ message: "Compte mis à jour !" })
           )
           .catch((error) => res.status(400).json({ error }));
       } else {
-        res.status(404).json({ error: "Utilisateur inexistant !" });
+        res.status(404).json({ error });
       }
     })
     .catch((error) => res.status(500).json({ error }));

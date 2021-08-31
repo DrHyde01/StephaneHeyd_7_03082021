@@ -1,18 +1,28 @@
 <template>
-  <div id='app'>
+  <div id="app">
     <Header /><router-view />
+    <Footer />
   </div>
 </template>
 
 <script>
 // Utilisaton du header pour l'ensemble de l'app
-import Header from './components/Header.vue';
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 
 export default {
-  name: 'App',
-  components: {Header}
+  name: "App",
+  components: { Header, Footer },
 };
 </script>
 
 <style>
+#app {
+  display: flex;
+  flex-direction: column;
+  background-image: url("../public/background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
 </style>

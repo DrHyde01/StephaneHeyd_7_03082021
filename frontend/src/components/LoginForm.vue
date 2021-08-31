@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow-md bg-gray-100 rounded-xl p-10 w-full">
+  <div class="shadow-md bg-gray-50 rounded-xl p-10 w-full">
     <form>
       <div>
         <input

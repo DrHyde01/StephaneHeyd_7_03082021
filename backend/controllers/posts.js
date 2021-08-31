@@ -141,7 +141,6 @@ exports.deletePost = (req, res, next) => {
   })
   .then((post) => {
     if (post.imageURL !== null) {
-      // Si photo de profil présente la supprime du répertoire, puis on supprime l'user de la BDD
       const filename = post.imageURL.split("/images/")[1];
       fs.unlink(`images/${filename}`, () => {
         db.Post.destroy({ where: { id: req.params.id } });
