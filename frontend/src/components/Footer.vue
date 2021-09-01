@@ -1,5 +1,5 @@
 <template>
-    <footer class = "bottom-0 w-full bg-gray-600 shadow-lg py-5 backdrop-filter backdrop-blur-sm bg-opacity-30">
+    <footer class = "bottom-0 w-full bg-gray-600 shadow-lg py-5 backdrop-filter backdrop-blur-sm bg-opacity-40">
          <div class="container mx-auto
             flex justify-center mb-5">
         <router-link to="/">
@@ -11,12 +11,12 @@
       </div>
       <div class="flex justify-center">
         <ul class="text-white text-center">
-          <li class="flex pb-2 hover:text-pink-600">
+          <li class="flex pb-2 hover:text-pink-400">
           <MailIcon class="h-6 w-5 mr-2"/>
           <a href="mailto:contact@groupomania.fr">
           Nous contacter</a>
           </li>
-          <li class="flex pb-2 hover:text-pink-600">
+          <li class="flex pb-2 hover:text-pink-400">
             <AnnotationIcon class="h-6 w-5 mr-2"/>
             <a href="#">
             Mentions légales</a>

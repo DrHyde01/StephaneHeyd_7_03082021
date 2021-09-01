@@ -10,12 +10,13 @@ const store = createStore({
 
   state: {
     status: "",
-    user: {},
+    user: {
+    },
     users: [],
     token: localStorage.getItem("token") || "",
 
     posts: [],
-    post: {}
+    post: {},
   },
 
   mutations: {
@@ -48,6 +49,7 @@ const store = createStore({
 
   actions: {
     // USERS ---------------------------------------------------------------------------------------------------
+
     // Création de l'user -----------------------------------------------
     createAccount: ({ commit }, userInfos) => {
       return new Promise((resolve, reject) => {
@@ -99,6 +101,7 @@ const store = createStore({
     },
 
     // POSTS ---------------------------------------------------------------------------------------------------
+
     // Récupération des posts -----------------------------------------------
     getAllPosts: ({ commit }) => {
       return new Promise((resolve, reject) => {
@@ -107,7 +110,7 @@ const store = createStore({
           .then(function(response) {
             const posts = response.data;
             commit("GET_POSTS", posts);
-            resolveDirective(response.data)
+            resolveDirective(response.data);
           })
           .catch(function(error) {
             reject(error);

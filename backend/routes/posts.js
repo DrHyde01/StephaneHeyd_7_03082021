@@ -4,21 +4,23 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
-const postCtrl = require('../controllers/posts');
+const postsCtrl = require('../controllers/posts');
+const commentsCtrl = require('../controllers/comments');
+const likesCtrl = require('../controllers/likes');
 
 // Posts
-router.post('/add', auth, multer, postCtrl.createPost); // Création d'un post
-router.get('/:id', auth, postCtrl.getOnePost); // Obtention d'un post via l'user id
-router.get('/', auth, postCtrl.getAllPosts); // Obtention de tout les posts
-router.put('/:id', auth, multer, postCtrl.updatePost); // Modification d'un post
-router.delete('/:id', auth, multer, postCtrl.deletePost); // Suppression d'un post
+router.post('/add', auth, multer, postsCtrl.createPost); // Création d'un post
+router.get('/:id', auth, postsCtrl.getOnePost); // Obtention d'un post via l'user id
+router.get('/', auth, postsCtrl.getAllPosts); // Obtention de tout les posts
+router.put('/:id', auth, multer, postsCtrl.updatePost); // Modification d'un post
+router.delete('/:id', auth, multer, postsCtrl.deletePost); // Suppression d'un post
 
-/*// Commentaires
-router.post('/:id/comments', auth, postCtrl.createComment);
-router.delete('/comments/:id', auth, postCtrl.deleteComment);
+// Commentaires
+router.post('/:postId/comments', auth, commentsCtrl.createComment); // Ajout d'un commentaire
+router.delete('/:postId/comments/:id', auth, commentsCtrl.deleteComment); // Suppression d'un commentaire
 
 // Likes
-router.post('/:id/likes', auth, postCtrl.addLike);
-router.delete('/likes/:id', auth, postCtrl.deleteLike);*/
+//router.post('/:postId/likes', auth, postCtrl.addLike);
+//router.delete('/:postId/likes/:id', auth, postCtrl.deleteLike);
 
 module.exports = router;

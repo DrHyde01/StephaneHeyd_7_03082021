@@ -2,8 +2,6 @@ const db = require("../models");
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
 
-// POSTS -------------------------------------------------------------------------------------------------------
-
 // Création d'un post --------------------------------------------------------------------------
 exports.createPost = (req, res, next) => {
   // Nous avons besoin de récupérer l'userId par l'intermédiaire du token
@@ -54,11 +52,11 @@ exports.getOnePost = (req, res, next) => {
       {
         model: db.Comment,
         order: [["createdAt", "DESC"]], // Affichage des commentaires dans un ordre donné
-        attributes: ["comment", "username", "UserId"],
+        attributes: ["comment", "UserId"],
         include: [
           {
             model: db.User,
-            attributes: ["picture", "username"],
+            attributes: ["username", "picture", "id"],
           },
         ],
       },
@@ -72,7 +70,7 @@ exports.getOnePost = (req, res, next) => {
 // Obtention de tout posts confondus ---------------------------------------------------------------
 exports.getAllPosts = (req, res, next) => {
   db.Post.findAll({
-    attributes: ["id", "message", "imageURL", "link", "createdAt"],
+    attributes: ["id", "message", "imageURL", "link", "createdAt", "UserId"],
 
     order: [["createdAt", "DESC"]],
 
@@ -88,11 +86,11 @@ exports.getAllPosts = (req, res, next) => {
       {
         model: db.Comment,
         order: [["createdAt", "DESC"]],
-        attributes: ["comment", "username", "UserId"],
+        attributes: ["comment", "UserId"],
         include: [
           {
             model: db.User,
-            attributes: ["picture", "username"],
+            attributes: ["username", "picture"],
           },
         ],
       },
@@ -139,21 +137,19 @@ exports.deletePost = (req, res, next) => {
       id: req.params.id,
     },
   })
-  .then((post) => {
-    if (post.imageURL !== null) {
-      const filename = post.imageURL.split("/images/")[1];
-      fs.unlink(`images/${filename}`, () => {
-        db.Post.destroy({ where: { id: req.params.id } });
+    .then((post) => {
+      if (post.imageURL !== null) {
+        const filename = post.imageURL.split("/images/")[1];
+        fs.unlink(`images/${filename}`, () => {
+          db.Post.destroy({ where: { id: post.id } });
+          res.status(200).json({ message: "Post supprimé !" });
+        });
+      } else {
+        // Sinon on supprime uniquement l'user
+        db.Post.destroy({ where: { id: post.id } });
         res.status(200).json({ message: "Post supprimé !" });
-      });
-    } else {
-      // Sinon on supprime uniquement l'user
-      db.Post.destroy({ where: { id: req.params.id } });
-      res.status(200).json({ message: "Post supprimé !" });
-    }
-  })
+      }
+    })
 
-  .catch((error) => res.status(500).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
-
-// COMMENTAIRES -------------------------------------------------------------------------------------------------
