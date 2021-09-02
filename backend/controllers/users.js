@@ -52,7 +52,7 @@ exports.login = (req, res, next) => {
             "RANDOM_TOKEN_SECRET",
             { expiresIn: "24h" }
           ),
-            message: "Bonjour " + user.username + " ! 🙂"
+          message: "Bonjour " + user.username + " ! 🙂",
         });
       })
       .catch((error) => res.status(500).json({ error }));

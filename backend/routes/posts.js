@@ -1,26 +1,26 @@
 // Mise en place des routes concernant la gestion des posts ---------------------------------------------------------------------
-const express = require('express'); 
-const router = express.Router(); 
-const auth = require('../middleware/auth');
-const multer = require('../middleware/multer-config');
+const express = require("express");
+const router = express.Router();
+const auth = require("../middleware/auth");
+const multer = require("../middleware/multer-config");
 
-const postsCtrl = require('../controllers/posts');
-const commentsCtrl = require('../controllers/comments');
-const likesCtrl = require('../controllers/likes');
+const postsCtrl = require("../controllers/posts");
+const commentsCtrl = require("../controllers/comments");
+const likesCtrl = require("../controllers/likes");
 
 // Posts
-router.post('/add', auth, multer, postsCtrl.createPost); // Création d'un post
-router.get('/:id', auth, postsCtrl.getOnePost); // Obtention d'un post via l'user id
-router.get('/', auth, postsCtrl.getAllPosts); // Obtention de tout les posts
-router.put('/:id', auth, multer, postsCtrl.updatePost); // Modification d'un post
-router.delete('/:id', auth, multer, postsCtrl.deletePost); // Suppression d'un post
+router.post("/add", auth, multer, postsCtrl.createPost); // Création d'un post
+router.get("/:id", auth, postsCtrl.getOnePost); // Obtention d'un post via l'user id
+router.get("/", auth, postsCtrl.getAllPosts); // Obtention de tout les posts
+router.put("/:id", auth, multer, postsCtrl.updatePost); // Modification d'un post
+router.delete("/:id", auth, multer, postsCtrl.deletePost); // Suppression d'un post
 
 // Commentaires
-router.post('/:postId/comments', auth, commentsCtrl.createComment); // Ajout d'un commentaire
-router.delete('/:postId/comments/:id', auth, commentsCtrl.deleteComment); // Suppression d'un commentaire
+router.post("/:postId/comments", auth, commentsCtrl.createComment); // Ajout d'un commentaire
+router.get("/:postId/comments", auth, commentsCtrl.getComments); // Obtention de tout les commentaires d'un post
+router.delete("/:postId/comments/:id", auth, commentsCtrl.deleteComment); // Suppression d'un commentaire
 
 // Likes
-//router.post('/:postId/likes', auth, postCtrl.addLike);
-//router.delete('/:postId/likes/:id', auth, postCtrl.deleteLike);
+router.post("/:postId/likes", auth, likesCtrl.addLike);
 
 module.exports = router;

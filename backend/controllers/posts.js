@@ -48,6 +48,12 @@ exports.getOnePost = (req, res, next) => {
       {
         model: db.Like,
         attributes: ["PostId", "UserId"],
+        include: [
+          {
+            model: db.User,
+            attributes: ["username", "picture"],
+          },
+        ],
       },
       {
         model: db.Comment,
@@ -56,7 +62,7 @@ exports.getOnePost = (req, res, next) => {
         include: [
           {
             model: db.User,
-            attributes: ["username", "picture", "id"],
+            attributes: ["username", "picture"],
           },
         ],
       },
@@ -70,7 +76,15 @@ exports.getOnePost = (req, res, next) => {
 // Obtention de tout posts confondus ---------------------------------------------------------------
 exports.getAllPosts = (req, res, next) => {
   db.Post.findAll({
-    attributes: ["id", "message", "imageURL", "link", "createdAt", "UserId"],
+    attributes: [
+      "id",
+      "message",
+      "imageURL",
+      "link",
+      "createdAt",
+      "updatedAt",
+      "UserId",
+    ],
 
     order: [["createdAt", "DESC"]],
 
@@ -82,6 +96,12 @@ exports.getAllPosts = (req, res, next) => {
       {
         model: db.Like,
         attributes: ["PostId", "UserId"],
+        include: [
+          {
+            model: db.User,
+            attributes: ["username", "picture"],
+          },
+        ],
       },
       {
         model: db.Comment,
@@ -141,12 +161,18 @@ exports.deletePost = (req, res, next) => {
       if (post.imageURL !== null) {
         const filename = post.imageURL.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
-          db.Post.destroy({ where: { id: post.id } });
+          db.Post.destroy(
+            { where: { id: post.id } },
+            { truncate: true, restartIdentity: true }
+          );
           res.status(200).json({ message: "Post supprimé !" });
         });
       } else {
         // Sinon on supprime uniquement l'user
-        db.Post.destroy({ where: { id: post.id } });
+        db.Post.destroy(
+          { where: { id: post.id } },
+          { truncate: true, restartIdentity: true }
+        );
         res.status(200).json({ message: "Post supprimé !" });
       }
     })
