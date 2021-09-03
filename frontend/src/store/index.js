@@ -1,4 +1,4 @@
-import { resolveDirective } from "vue";
+//import { resolveDirective } from "vue";
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import userService from "../services/auth";
@@ -11,29 +11,42 @@ const store = createStore({
   state: {
     status: "",
     user: {
+      userId: "",
+      username: "",
+      email: "",
+      isAdmin: false,
+      token: "",
     },
-    users: [],
-    token: localStorage.getItem("token") || "",
-
     posts: [],
     post: {},
   },
 
   mutations: {
+    CREATE_SUCCES(state) {
+      state.status = "accountCreated";
+    },
+
     AUTH_REQ(state) {
       state.status = "loading";
     },
 
-    AUTH_SUCCES(state, token, user) {
-      (state.status = "succes"), (state.token = token), (state.user = user);
-    },
-
-    CREATE_SUCCES(state, user) {
-      (state.status = "accountCreated"), (state.user = user);
+    AUTH_SUCCES(state, { userId, token, userName, userMail, userIsAdmin }) {
+      // Les infos seront disponibles tant que l'user est connecté
+      (state.status = "isConnected"),
+        (state.user.userId = userId),
+        (state.user.token = token);
+      (state.user.username = userName),
+        (state.user.email = userMail),
+        (state.user.isAdmin = userIsAdmin);
     },
 
     LOG_OUT(state) {
-      (state.status = "notConnected"), (state.token = "");
+      (state.status = "notConnected"),
+        (state.user.userId = ""),
+        (state.user.username = ""),
+        (state.user.email = ""),
+        (state.user.isAdmin = ""),
+        (state.user.token = "");
     },
 
     AUTH_ERROR(state) {
@@ -43,19 +56,19 @@ const store = createStore({
 
   getters: {
     // Nécessaire pour vérifier si l'user est authentifié
-    isLoggedIn: (state) => !!state.token, // !! convertit la valeur en boolean et fixe à true
+    isLoggedIn: (state) => !!state.user.token, // !! convertit la valeur en boolean et fixe à true
     authStatus: (state) => state.status,
   },
 
   actions: {
     // USERS ---------------------------------------------------------------------------------------------------
 
-    // Création de l'user -----------------------------------------------
-    createAccount: ({ commit }, userInfos) => {
+    // Création de l'user ---------------------------------------------------------------
+    createAccount: ({ commit }, signInfos) => {
       return new Promise((resolve, reject) => {
-        commit("AUTH_REQ", "loading");
+        commit("AUTH_REQ");
         userService
-          .signup(userInfos) // userInfos correspond aux données renseignées dans le formulaire
+          .signup(signInfos) // userInfos correspond aux données renseignées dans le formulaire
           .then(function(response) {
             commit("CREATE_SUCCES");
             alert(response.data.message);
@@ -68,49 +81,83 @@ const store = createStore({
       });
     },
 
-    // Connexion de l'user ----------------------------------------------
-    logToAccount: ({ commit }, userInfos) => {
+    // Connexion de l'user --------------------------------------------------------------------------------
+    logToAccount: ({ commit }, logInfos) => {
       return new Promise((resolve, reject) => {
-        commit("AUTH_REQ", "loading");
+        commit("AUTH_REQ");
         userService
-          .login(userInfos)
+          .login(logInfos)
           .then(function(response) {
             const token = response.data.token; // Le token est récupéré
-            //console.log("token:", token);
+            const userId = response.data.userId; // Et l'userId
             localStorage.setItem("token", token); // Puis transmis au localStorage
-            commit("AUTH_SUCCES", token);
+            localStorage.setItem("UserId", userId);
+            commit("AUTH_SUCCES", { token, userId }); // Première mutation pour la connexion
             alert(response.data.message);
             resolve(response.data);
           })
           .catch(function(error) {
             commit("AUTH_ERROR");
-            localStorage.clear();
+            localStorage.clear(); // On purge le localStorage si erreur de connexion
             reject(error);
           });
       });
     },
 
-    // Déconnexion de l'user -----------------------------------------------
+    // Récupération des informations de l'user une fois la connexion établie ------------------------------------------------------------
+    getUserInfos: ({ commit }) => {
+      return new Promise((resolve, reject) => {
+        const id = localStorage.getItem("UserId"); // Récupération de l'id, necessaire à l'appel API
+        userService
+          .getUser(id)
+          .then(function(response) {
+            // On récupère les infos dont on a besoin puis on les rajoute au localStorage
+            const userName = response.data.user.username;
+            const userMail = response.data.user.email;
+            const userIsAdmin = response.data.user.admin;
+            localStorage.setItem("username", userName);
+            localStorage.setItem("email", userMail);
+            localStorage.setItem("isAdmin", userIsAdmin);
+
+            // On a besoin du token de l'userId pour la nouvelle mutation de AUTH_SUCCES
+            const token = localStorage.getItem("token");
+            const userId = localStorage.getItem("UserId");
+            commit("AUTH_SUCCES", {
+              token,
+              userId,
+              userName,
+              userMail,
+              userIsAdmin,
+            });
+            resolve(response.data);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
+
+    // Déconnexion de l'user ------------------------------------------------------------------------------------------
     logOut: ({ commit }) => {
       return new Promise((resolve) => {
         commit("LOG_OUT");
         alert("A bientôt 👋");
-        localStorage.clear(); // On purge le localStorage pour ne plus préserver l'état précédent du state, ni le token
+        localStorage.clear(); // On purge le localStorage pour remettre le store à zéro
         resolve();
       });
     },
 
-    // POSTS ---------------------------------------------------------------------------------------------------
+    // POSTS ----------------------------------------------------------------------------------------------------------
 
     // Récupération des posts -----------------------------------------------
-    getAllPosts: ({ commit }) => {
+    getAllPosts: () => {
       return new Promise((resolve, reject) => {
         postService
           .getAllPosts()
           .then(function(response) {
-            const posts = response.data;
-            commit("GET_POSTS", posts);
-            resolveDirective(response.data);
+            const posts = response.data.posts;
+            console.log(posts);
+            resolve(response.data);
           })
           .catch(function(error) {
             reject(error);

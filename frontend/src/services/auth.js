@@ -13,8 +13,8 @@ export default {
     return API().get("users/accounts", data);
   },
 
-  getUser(id) {
-    return API().get("users/accounts" + id);
+  getUser(id, data) {
+    return API().get("users/accounts/" + id, data);
   },
 
   updateUser(id, data) {

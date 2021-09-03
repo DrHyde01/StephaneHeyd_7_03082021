@@ -15,7 +15,7 @@
     </div>
     <div class="flex flex-end">
       <!-- S'affiche uniquement si l'utilisateur est connecté -->
-      <template v-if="status == 'succes'">
+      <template v-if="status == 'isConnected'">
         <router-link to="/wall" class="text-white hover:text-pink-400 mx-3"
           >Mur</router-link
         >

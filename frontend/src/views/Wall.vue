@@ -9,7 +9,17 @@
 export default {
     name: 'Wall',
     components: {},
+
+    created(){ // On demande les informations de l'user ainsi que les posts disponibles avant le rendu
+    this.$store.dispatch("getUserInfos");
+    this.$store.dispatch("getAllPosts");
+ },
+
+
+
 }
+
+
 
 
 

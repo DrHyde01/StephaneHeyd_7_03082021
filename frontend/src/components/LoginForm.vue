@@ -18,7 +18,7 @@
       <div>
         <button
           type="button"
-          @click="logToAccount()"
+          @click="logToAccount();"
           class="w-full bg-gray-500 hover:bg-gray-600 hover:shadow-xl text-white font-bold py-2 px-4 rounded"
           :disabled="!validatedFields"
           :class="{ 'opacity-25 cursor-not-allowed': !validatedFields }"
@@ -28,7 +28,9 @@
         </button>
       </div>
       <div>
-        <p v-if="status == 'error'" class="p-2 text-center text-red-400"> Identifiant ou mot de passe incorrect.</p>
+        <p v-if="status == 'error'" class="p-2 text-center text-red-400">
+          Identifiant ou mot de passe incorrect.
+        </p>
       </div>
     </form>
   </div>
@@ -56,7 +58,7 @@ export default {
         return false;
       }
     },
-    ...mapState(["status"]), // On souhaite récupérer les stats status du store 
+    ...mapState(["status"]), // On souhaite récupérer les stats status du store
   },
 
   methods: {
@@ -70,7 +72,7 @@ export default {
         })
         .then(
           function() {
-            self.$router.push('/wall'); // Puis on bascule sur la page wall
+            self.$router.push("/wall"); // Puis on bascule sur la page wall
           },
           function(error) {
             console.log(error);
