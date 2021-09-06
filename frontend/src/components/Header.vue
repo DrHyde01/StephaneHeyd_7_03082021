@@ -6,7 +6,13 @@
   >
     <!-- Liens vers nos pages enregistrées dans le routeur -->
     <div class="flex flex-start">
-      <router-link to="/">
+      <router-link v-if="status == 'isConnected'" to="/wall">
+        <img
+          class="object-contain h-10"
+          src="../assets/icons/icon-white-navbar.png"
+        />
+      </router-link>
+      <router-link v-else to="/">
         <img
           class="object-contain h-10"
           src="../assets/icons/icon-white-navbar.png"
@@ -62,7 +68,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["status"]), // Le statut "succes" sera recherché dans le store
+    ...mapState(["status"]), // Le statut "isConnected" sera recherché dans le store
   },
 
   methods: {

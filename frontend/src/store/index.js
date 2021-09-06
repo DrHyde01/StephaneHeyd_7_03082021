@@ -14,6 +14,7 @@ const store = createStore({
       userId: "",
       username: "",
       email: "",
+      picture: "",
       isAdmin: false,
       token: "",
     },
@@ -22,6 +23,7 @@ const store = createStore({
   },
 
   mutations: {
+    // USERS ------------------------------------------------------------------------------------------------------
     CREATE_SUCCES(state) {
       state.status = "accountCreated";
     },
@@ -30,13 +32,17 @@ const store = createStore({
       state.status = "loading";
     },
 
-    AUTH_SUCCES(state, { userId, token, userName, userMail, userIsAdmin }) {
+    AUTH_SUCCES(
+      state,
+      { userId, token, userName, userMail, userPicture, userIsAdmin }
+    ) {
       // Les infos seront disponibles tant que l'user est connecté
       (state.status = "isConnected"),
         (state.user.userId = userId),
         (state.user.token = token);
       (state.user.username = userName),
         (state.user.email = userMail),
+        (state.user.picture = userPicture),
         (state.user.isAdmin = userIsAdmin);
     },
 
@@ -45,12 +51,19 @@ const store = createStore({
         (state.user.userId = ""),
         (state.user.username = ""),
         (state.user.email = ""),
-        (state.user.isAdmin = ""),
-        (state.user.token = "");
+        (state.user.picture = ""),
+        (state.user.isAdmin = false),
+        (state.user.token = ""),
+        (state.posts = []);
     },
 
     AUTH_ERROR(state) {
       state.status = "error";
+    },
+
+    // POSTS ---------------------------------------------------------------------------------------------------
+    GET_POSTS(state, posts) {
+      state.posts = posts;
     },
   },
 
@@ -68,7 +81,7 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         commit("AUTH_REQ");
         userService
-          .signup(signInfos) // userInfos correspond aux données renseignées dans le formulaire
+          .signup(signInfos) // signInfos correspond aux données renseignées dans le formulaire
           .then(function(response) {
             commit("CREATE_SUCCES");
             alert(response.data.message);
@@ -93,7 +106,7 @@ const store = createStore({
             localStorage.setItem("token", token); // Puis transmis au localStorage
             localStorage.setItem("UserId", userId);
             commit("AUTH_SUCCES", { token, userId }); // Première mutation pour la connexion
-            alert(response.data.message);
+            //alert(response.data.message);
             resolve(response.data);
           })
           .catch(function(error) {
@@ -111,22 +124,22 @@ const store = createStore({
         userService
           .getUser(id)
           .then(function(response) {
-            // On récupère les infos dont on a besoin puis on les rajoute au localStorage
+            // On récupère les infos dont on a besoin puis on les rajoute au store
             const userName = response.data.user.username;
             const userMail = response.data.user.email;
+            const userPicture = response.data.user.picture;
             const userIsAdmin = response.data.user.admin;
-            localStorage.setItem("username", userName);
-            localStorage.setItem("email", userMail);
-            localStorage.setItem("isAdmin", userIsAdmin);
 
             // On a besoin du token de l'userId pour la nouvelle mutation de AUTH_SUCCES
             const token = localStorage.getItem("token");
             const userId = localStorage.getItem("UserId");
+
             commit("AUTH_SUCCES", {
               token,
               userId,
               userName,
               userMail,
+              userPicture,
               userIsAdmin,
             });
             resolve(response.data);
@@ -149,14 +162,15 @@ const store = createStore({
 
     // POSTS ----------------------------------------------------------------------------------------------------------
 
-    // Récupération des posts -----------------------------------------------
-    getAllPosts: () => {
+    // Récupération des posts --------------------------------------------------------------------
+    getAllPosts: ({ commit }) => {
       return new Promise((resolve, reject) => {
         postService
           .getAllPosts()
           .then(function(response) {
             const posts = response.data.posts;
             console.log(posts);
+            commit("GET_POSTS", posts);
             resolve(response.data);
           })
           .catch(function(error) {

@@ -24,8 +24,7 @@ DROP TABLE IF EXISTS `Comments`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Comments` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) COLLATE utf8_bin NOT NULL,
-  `comment` varchar(300) COLLATE utf8_bin NOT NULL,
+  `comment` varchar(255) COLLATE utf8_bin NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `UserId` int DEFAULT NULL,
@@ -33,9 +32,9 @@ CREATE TABLE `Comments` (
   PRIMARY KEY (`id`),
   KEY `UserId` (`UserId`),
   KEY `PostId` (`PostId`),
-  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`PostId`) REFERENCES `Posts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+  CONSTRAINT `comments_ibfk_27` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `comments_ibfk_28` FOREIGN KEY (`PostId`) REFERENCES `Posts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +43,7 @@ CREATE TABLE `Comments` (
 
 LOCK TABLES `Comments` WRITE;
 /*!40000 ALTER TABLE `Comments` DISABLE KEYS */;
+INSERT INTO `Comments` VALUES (1,'Elle est bien cachée','2021-09-02 08:44:49','2021-09-02 08:44:49',2,1),(2,'Ce n\'est pas faux ...','2021-09-02 09:32:55','2021-09-02 09:32:55',1,1);
 /*!40000 ALTER TABLE `Comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +56,6 @@ DROP TABLE IF EXISTS `Likes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Likes` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `like` tinyint(1) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `UserId` int DEFAULT NULL,
@@ -64,9 +63,9 @@ CREATE TABLE `Likes` (
   PRIMARY KEY (`id`),
   KEY `UserId` (`UserId`),
   KEY `PostId` (`PostId`),
-  CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`PostId`) REFERENCES `Posts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+  CONSTRAINT `likes_ibfk_27` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `likes_ibfk_28` FOREIGN KEY (`PostId`) REFERENCES `Posts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,6 +74,7 @@ CREATE TABLE `Likes` (
 
 LOCK TABLES `Likes` WRITE;
 /*!40000 ALTER TABLE `Likes` DISABLE KEYS */;
+INSERT INTO `Likes` VALUES (2,'2021-09-02 09:24:50','2021-09-02 09:24:50',2,1),(8,'2021-09-02 09:51:10','2021-09-02 09:51:10',1,1);
 /*!40000 ALTER TABLE `Likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +96,7 @@ CREATE TABLE `Posts` (
   PRIMARY KEY (`id`),
   KEY `UserId` (`UserId`),
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,6 +105,7 @@ CREATE TABLE `Posts` (
 
 LOCK TABLES `Posts` WRITE;
 /*!40000 ALTER TABLE `Posts` DISABLE KEYS */;
+INSERT INTO `Posts` VALUES (1,'Elle est où la poulette ??','https://legaragealegumes.fr/images/detailed/9/poulette.jpg?t=1596637253',NULL,'2021-09-02 07:01:01','2021-09-02 09:47:13',2);
 /*!40000 ALTER TABLE `Posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,8 +130,34 @@ CREATE TABLE `Users` (
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `username_2` (`username`),
+  UNIQUE KEY `email_2` (`email`),
+  UNIQUE KEY `username_3` (`username`),
+  UNIQUE KEY `email_3` (`email`),
+  UNIQUE KEY `username_4` (`username`),
+  UNIQUE KEY `email_4` (`email`),
+  UNIQUE KEY `username_5` (`username`),
+  UNIQUE KEY `email_5` (`email`),
+  UNIQUE KEY `username_6` (`username`),
+  UNIQUE KEY `email_6` (`email`),
+  UNIQUE KEY `username_7` (`username`),
+  UNIQUE KEY `email_7` (`email`),
+  UNIQUE KEY `username_8` (`username`),
+  UNIQUE KEY `email_8` (`email`),
+  UNIQUE KEY `username_9` (`username`),
+  UNIQUE KEY `email_9` (`email`),
+  UNIQUE KEY `username_10` (`username`),
+  UNIQUE KEY `email_10` (`email`),
+  UNIQUE KEY `username_11` (`username`),
+  UNIQUE KEY `email_11` (`email`),
+  UNIQUE KEY `username_12` (`username`),
+  UNIQUE KEY `email_12` (`email`),
+  UNIQUE KEY `username_13` (`username`),
+  UNIQUE KEY `email_13` (`email`),
+  UNIQUE KEY `username_14` (`username`),
+  UNIQUE KEY `email_14` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,6 +166,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
+INSERT INTO `Users` VALUES (1,'Hyde','Stefan','DrHyde','heyd.stephane@gmail.com','$2b$10$9SGuBqZW4pTIaKG0XR5VFOK3ORIZ/tO9q0u37wXFkFhBBr4puqrSq',1,NULL,NULL,'2021-08-29 15:48:55','2021-08-29 15:48:55'),(2,'test','test','Test','test@test.com','$2b$10$Q43hLy8t7MdIdNJStjRBjOJJDxDBFKCw0nbf7aO4DWC.ubZVczZbe',0,NULL,NULL,'2021-08-30 06:12:58','2021-09-02 09:49:45');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -151,4 +179,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-29 17:45:19
+-- Dump completed on 2021-09-03 17:08:06
