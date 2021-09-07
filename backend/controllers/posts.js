@@ -68,7 +68,7 @@ exports.getOnePost = (req, res, next) => {
       },
     ],
   })
-    .then((post) => res.status(200).json({ post }))
+    .then((post) => res.status(200).json(post))
 
     .catch((error) => res.status(500).json({ error }));
 };
@@ -116,7 +116,7 @@ exports.getAllPosts = (req, res, next) => {
       },
     ],
   })
-    .then((posts) => res.status(200).json({ posts }))
+    .then((posts) => res.status(200).json(posts))
 
     .catch((error) => res.status(500).json({ error }));
 };

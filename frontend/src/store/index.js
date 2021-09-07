@@ -65,6 +65,14 @@ const store = createStore({
     GET_POSTS(state, posts) {
       state.posts = posts;
     },
+
+    GET_ONE_POST(state, post) {
+      state.post = post;
+    },
+
+    DELETE_POST(state, posts) {
+      state.posts = posts;
+    },
   },
 
   getters: {
@@ -120,15 +128,15 @@ const store = createStore({
     // Récupération des informations de l'user une fois la connexion établie ------------------------------------------------------------
     getUserInfos: ({ commit }) => {
       return new Promise((resolve, reject) => {
-        const id = localStorage.getItem("UserId"); // Récupération de l'id, necessaire à l'appel API
+        let id = localStorage.getItem("UserId"); // Récupération de l'id, necessaire à l'appel API
         userService
           .getUser(id)
           .then(function(response) {
             // On récupère les infos dont on a besoin puis on les rajoute au store
-            const userName = response.data.user.username;
-            const userMail = response.data.user.email;
-            const userPicture = response.data.user.picture;
-            const userIsAdmin = response.data.user.admin;
+            const userName = response.data.username;
+            const userMail = response.data.email;
+            const userPicture = response.data.picture;
+            const userIsAdmin = response.data.admin;
 
             // On a besoin du token de l'userId pour la nouvelle mutation de AUTH_SUCCES
             const token = localStorage.getItem("token");
@@ -168,10 +176,41 @@ const store = createStore({
         postService
           .getAllPosts()
           .then(function(response) {
-            const posts = response.data.posts;
+            const posts = response.data;
             console.log(posts);
             commit("GET_POSTS", posts);
             resolve(response.data);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
+    // Récupération d'un post précis -----------------------------------------------------------------
+    getPostByID: ({ commit }, id) => {
+      return new Promise((resolve, reject) => {
+        postService
+          .getOnePost(id)
+          .then(function(response) {
+            const post = response.data;
+            console.log(post);
+            commit("GET_ONE_POST", post);
+            resolve(response.data);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
+
+    // Suppresion d'un post précis -----------------------------------------------------------------
+    deleteOnePost: ({ commit }, id) => {
+      return new Promise((resolve, reject) => {
+        postService
+          .deletePost(id)
+          .then(function(response) {
+            commit("DELETE_POST");
+            resolve(response);
           })
           .catch(function(error) {
             reject(error);

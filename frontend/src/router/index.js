@@ -64,6 +64,9 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  scrollBehavior() { // Permet de revenir à la position initiale de la page
+    window.scrollTo(0,0);
+  }
 });
 
 // Cette fonction empêche l'accès à certaines pages si l'user n'est pas authentifié
