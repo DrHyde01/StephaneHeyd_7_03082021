@@ -58,7 +58,7 @@ exports.getOnePost = (req, res, next) => {
       {
         model: db.Comment,
         order: [["createdAt", "DESC"]], // Affichage des commentaires dans un ordre donné
-        attributes: ["comment", "UserId"],
+        attributes: ["id", "comment", "UserId"],
         include: [
           {
             model: db.User,
@@ -106,7 +106,7 @@ exports.getAllPosts = (req, res, next) => {
       {
         model: db.Comment,
         order: [["createdAt", "DESC"]],
-        attributes: ["comment", "UserId"],
+        attributes: ["id", "comment", "UserId"],
         include: [
           {
             model: db.User,

@@ -6,15 +6,21 @@
       :key="post.id"
     >
       <div class="flex flex-1 items-center">
-        <img
-          v-if="post.User.picture !== null"
-          class="inline object-cover rounded-full h-14 w-14 border-4  mr-4"
-          :src="post.User.picture"
-          alt="photo de profil"
-        />
+        <div class="flex items-center">
+          <img
+            v-if="post.User.picture !== null"
+            class="inline object-cover rounded-full h-14 w-14 border-4 border-gray-300 mr-4"
+            :src="post.User.picture"
+            alt="photo de profil"
+          />
+
+          <StatusOnlineIcon v-if="$store.state.user.userId == post.User.id"
+          class="relative -left-10 -bottom-3 h-7 w-7  text-green-400" />
+
+        </div>
 
         <div class="flex flex-1 items-center">
-          <p class="text-center font-medium">{{ post.User.username }}</p>
+          <p class="text-center font-medium text-gray-600">{{ post.User.username }}</p>
           <p class="text-xs font-thin ml-2">
             {{ moment(post.createdAt).format("[le] DD MMMM YYYY") }}
           </p>
@@ -28,9 +34,11 @@
               $store.state.user.isAdmin == true
           "
         >
-          <button type="button"><PencilIcon class="h-6 w-5 mr-2" /></button>
-          <button type="button" @click="deletePost()">
-            <TrashIcon class="h-6 w-5 mr-2" />
+          <button type="button">
+            <PencilIcon class="h-6 w-5 mr-4 text-gray-600" />
+          </button>
+          <button type="button" @click="deletePost(post.id)">
+            <TrashIcon class="h-6 w-5 mr-2 text-gray-600" />
           </button>
         </div>
       </div>
@@ -52,6 +60,10 @@
       <div class="flex flex-wrap mx-4 my-2">
         <p class="text-left">{{ post.message }}</p>
       </div>
+
+      <!-- Affichage du bouton like et du compteur : intégrer un bouton coeur permettant de liker ou d'annuler son like -->
+
+      <!-- Affichage des commentaires et du compteur : intégrer un bouton permettant de les afficher -->
     </div>
   </div>
 </template>
@@ -60,12 +72,12 @@
 import { mapState } from "vuex";
 import moment from "moment";
 
-import { PencilIcon, TrashIcon } from "@heroicons/vue/solid";
+import { PencilIcon, TrashIcon, StatusOnlineIcon } from "@heroicons/vue/solid";
 
 export default {
   name: "Posts",
 
-  components: { PencilIcon, TrashIcon },
+  components: { PencilIcon, TrashIcon, StatusOnlineIcon },
 
   created: function() {
     this.moment = moment; // Permet le formatage de la date du post
@@ -77,8 +89,8 @@ export default {
   },
 
   methods: {
-    deletePost() {
-      this.$store.dispatch("deleteOnePost");
+    deletePost(id) {
+      this.$store.dispatch("deleteOnePost", id);
     },
   },
 };

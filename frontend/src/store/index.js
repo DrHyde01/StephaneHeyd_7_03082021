@@ -70,8 +70,8 @@ const store = createStore({
       state.post = post;
     },
 
-    DELETE_POST(state, posts) {
-      state.posts = posts;
+    DELETE_POST(state, id) {
+      state.posts = [...state.posts.filter((element) => element.id !== id)];
     },
   },
 
@@ -209,7 +209,7 @@ const store = createStore({
         postService
           .deletePost(id)
           .then(function(response) {
-            commit("DELETE_POST");
+            commit("DELETE_POST", id); // Le commit permet de supprimer l'élément du store
             resolve(response);
           })
           .catch(function(error) {

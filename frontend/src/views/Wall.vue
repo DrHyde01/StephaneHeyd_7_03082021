@@ -1,9 +1,25 @@
 <template>
   <div class="flex justify-center w-screen py-20">
     <div class="lg:w-3/6 w-10/12 bg-white py-5 rounded-xl shadow-lg">
-      <p class="text-center mb-10">
-        Bonjour {{ username }}. Que voulez vous partager ce {{ dayName }} ?
-      </p>
+      <div
+        class="flex space-y-8 md:space-y-2 lg:flex justify-center items-center flex-wrap m-8"
+      >
+        <img
+          v-if="$store.state.user.picture !== null"
+          class="inline object-cover rounded-full h-24 w-24 border-8 border-gray-300 shadow-md mr-4"
+          :src="$store.state.user.picture"
+          alt="photo de profil"
+        />
+        <!-- Condition à rajouter : si posts = 0 message invitant à poster, sinon garder le message ci-dessous -->
+        <button
+          type="button"
+          class="bg-gray-100 shadow-md hover:shadow-xl px-8 py-4 rounded-full"
+        >
+          <p class="text-center">
+            Bonjour {{ username }}. Que partagez-vous ce {{ dayName }} ?
+          </p>
+        </button>
+      </div>
 
       <postCreate />
 
