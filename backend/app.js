@@ -43,7 +43,7 @@ db.sequelize
 // Utilisation des fonctionnalités ou packages -----------------------------------------------------------
 app.use(express.json()); // Remplace bodyParser sur les dernières versions de Express
 app.use(express.urlencoded({ extended: true })); // En complément de express.json
-app.use('/images', express.static(path.join(__dirname, 'images'))); // Pour que Express gère le dossier images de manière statique à chaque requête 
+app.use('/images/', express.static(path.join(__dirname, 'images'))); // Pour que Express gère le dossier images de manière statique à chaque requête 
 
 
 // Déclaration des routes --------------------------------------------------------------------------------

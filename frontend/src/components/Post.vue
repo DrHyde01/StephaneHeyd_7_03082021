@@ -5,7 +5,7 @@
       v-for="post in posts"
       :key="post.id"
     >
-      <div class="flex flex-1 items-center">
+      <div class="flex items-center">
         <div class="flex items-center">
           <img
             v-if="post.User.picture !== null"
@@ -13,14 +13,16 @@
             :src="post.User.picture"
             alt="photo de profil"
           />
-
-          <StatusOnlineIcon v-if="$store.state.user.userId == post.User.id"
-          class="relative -left-10 -bottom-3 h-7 w-7  text-green-400" />
-
         </div>
 
         <div class="flex flex-1 items-center">
-          <p class="text-center font-medium text-gray-600">{{ post.User.username }}</p>
+          <p class="text-center font-medium text-gray-600">
+            {{ post.User.username }}
+          </p>
+          <StatusOnlineIcon
+            v-if="$store.state.user.userId == post.User.id"
+            class=" h-6 w-6 ml-1 text-green-400"
+          />
           <p class="text-xs font-thin ml-2">
             {{ moment(post.createdAt).format("[le] DD MMMM YYYY") }}
           </p>
@@ -35,10 +37,12 @@
           "
         >
           <button type="button">
-            <PencilIcon class="h-6 w-5 mr-4 text-gray-600" />
+            <PencilIcon
+              class="h-6 w-5 mr-4 text-gray-400 hover:text-gray-800"
+            />
           </button>
           <button type="button" @click="deletePost(post.id)">
-            <TrashIcon class="h-6 w-5 mr-2 text-gray-600" />
+            <TrashIcon class="h-6 w-5 mr-2 text-gray-400 hover:text-red-600" />
           </button>
         </div>
       </div>

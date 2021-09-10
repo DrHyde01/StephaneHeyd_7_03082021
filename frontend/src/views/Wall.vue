@@ -13,15 +13,16 @@
         <!-- Condition à rajouter : si posts = 0 message invitant à poster, sinon garder le message ci-dessous -->
         <button
           type="button"
+          @click="displayModal()"
           class="bg-gray-100 shadow-md hover:shadow-xl px-8 py-4 rounded-full"
         >
-          <p class="text-center">
+          <h2 class="text-center">
             Bonjour {{ username }}. Que partagez-vous ce {{ dayName }} ?
-          </p>
+          </h2>
+          <post-modal v-if="showModal" />
+          <!-- Le composant modal s'affiche au click -->
         </button>
       </div>
-
-      <postCreate />
 
       <postView />
     </div>
@@ -31,17 +32,27 @@
 <script>
 import { mapState } from "vuex";
 
-import postCreate from "../components/PostCreation.vue";
+import postModal from "../components/PostModal.vue";
 import postView from "../components/Post.vue";
 
 export default {
   name: "Wall",
-  components: { postCreate, postView },
+  components: { postModal, postView },
+
+  data: () => ({
+    showModal: false, // La modale ne doit pas d'afficher initialement
+  }),
 
   beforeMount() {
     // On demande les informations de l'user ainsi que les posts disponibles avant le rendu
     this.$store.dispatch("getUserInfos");
     this.$store.dispatch("getAllPosts");
+  },
+
+  methods: {
+    displayModal() {
+      this.showModal = !this.showModal;
+    },
   },
 
   computed: {

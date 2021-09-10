@@ -18,9 +18,14 @@ exports.createPost = (req, res, next) => {
   })
     // Et enregistrons son post dans la BDD
     .then(() => {
-      const imageUrl = `${req.protocol}://${req.get("host")}/images/${
-        req.body.filename
-      }`; // A vérifier pour req.file.filename
+      let imageUrl 
+      if (req.file) {
+         imageUrl = `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`; // A vérifier pour req.file.filename
+      } else {
+        imageURL = null;
+      }
 
       db.Post.create({
         message: req.body.message,

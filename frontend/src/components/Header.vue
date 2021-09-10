@@ -22,10 +22,10 @@
     <div class="flex flex-end">
       <!-- S'affiche uniquement si l'utilisateur est connecté -->
       <template v-if="status == 'isConnected'">
-        <router-link to="/wall" class="text-white hover:text-pink-400 mx-3"
+        <router-link to="/wall" class="text-white hover:text-pink-600 mx-3"
           >Mur</router-link
         >
-        <router-link to="/profil" class="text-white hover:text-pink-400 mx-3"
+        <router-link to="/profil" class="text-white hover:text-pink-600 mx-3"
           >Profil</router-link
         >
         <router-link

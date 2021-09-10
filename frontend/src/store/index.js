@@ -62,6 +62,10 @@ const store = createStore({
     },
 
     // POSTS ---------------------------------------------------------------------------------------------------
+    ADD_POST(state, post) {
+      state.posts = [post, ...state.posts];
+    },
+
     GET_POSTS(state, posts) {
       state.posts = posts;
     },
@@ -69,6 +73,7 @@ const store = createStore({
     GET_ONE_POST(state, post) {
       state.post = post;
     },
+
 
     DELETE_POST(state, id) {
       state.posts = [...state.posts.filter((element) => element.id !== id)];
@@ -170,6 +175,29 @@ const store = createStore({
 
     // POSTS ----------------------------------------------------------------------------------------------------------
 
+    // Création d'un post -------------------------------------------------------------------------
+    createPost: ({ commit }, post) => {
+      return new Promise((resolve, reject) => {
+        postService
+          .createPost(post)
+          .then(function(response) {
+            const post = response.data;
+            commit("GET_POSTS", post);
+            resolve(response.data);
+          })
+          .then((response) => {
+            postService
+              .getAllPosts()
+              const posts = response.data
+              commit("GET_POSTS", posts);
+              resolve(response.data);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
+
     // Récupération des posts --------------------------------------------------------------------
     getAllPosts: ({ commit }) => {
       return new Promise((resolve, reject) => {
@@ -202,6 +230,8 @@ const store = createStore({
           });
       });
     },
+
+    // Création d'un post ---------------------------------------------------------------------------
 
     // Suppresion d'un post précis -----------------------------------------------------------------
     deleteOnePost: ({ commit }, id) => {
