@@ -32,8 +32,8 @@ CREATE TABLE `Comments` (
   PRIMARY KEY (`id`),
   KEY `UserId` (`UserId`),
   KEY `PostId` (`PostId`),
-  CONSTRAINT `comments_ibfk_27` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `comments_ibfk_28` FOREIGN KEY (`PostId`) REFERENCES `Posts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `comments_ibfk_31` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `comments_ibfk_32` FOREIGN KEY (`PostId`) REFERENCES `Posts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -63,8 +63,8 @@ CREATE TABLE `Likes` (
   PRIMARY KEY (`id`),
   KEY `UserId` (`UserId`),
   KEY `PostId` (`PostId`),
-  CONSTRAINT `likes_ibfk_27` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `likes_ibfk_28` FOREIGN KEY (`PostId`) REFERENCES `Posts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `likes_ibfk_31` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `likes_ibfk_32` FOREIGN KEY (`PostId`) REFERENCES `Posts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -96,7 +96,7 @@ CREATE TABLE `Posts` (
   PRIMARY KEY (`id`),
   KEY `UserId` (`UserId`),
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +105,7 @@ CREATE TABLE `Posts` (
 
 LOCK TABLES `Posts` WRITE;
 /*!40000 ALTER TABLE `Posts` DISABLE KEYS */;
-INSERT INTO `Posts` VALUES (1,'Elle est où la poulette ??','https://legaragealegumes.fr/images/detailed/9/poulette.jpg?t=1596637253',NULL,'2021-09-02 07:01:01','2021-09-02 09:47:13',2);
+INSERT INTO `Posts` VALUES (1,'Elle est où la poulette ??','https://legaragealegumes.fr/images/detailed/9/poulette.jpg?t=1596637253',NULL,'2021-09-02 07:01:01','2021-09-02 09:47:13',2),(3,'Bonjour tout le monde',NULL,NULL,'2021-09-07 11:27:03','2021-09-07 11:45:42',1),(4,'Et bonne journée !',NULL,'https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ecf05e47zufnv9i3537fs43ahzli9ryhnwjslfiozxhfm4a1&rid=giphy.gif&ct=g','2021-09-07 12:05:09','2021-09-07 12:13:37',1),(47,'bonjour','http://localhost:3000/images/SQL-MongoDB_Correspondence.PNG1631300243359.png',NULL,'2021-09-10 18:57:23','2021-09-10 18:57:23',2);
 /*!40000 ALTER TABLE `Posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -156,7 +156,11 @@ CREATE TABLE `Users` (
   UNIQUE KEY `username_13` (`username`),
   UNIQUE KEY `email_13` (`email`),
   UNIQUE KEY `username_14` (`username`),
-  UNIQUE KEY `email_14` (`email`)
+  UNIQUE KEY `email_14` (`email`),
+  UNIQUE KEY `username_15` (`username`),
+  UNIQUE KEY `email_15` (`email`),
+  UNIQUE KEY `username_16` (`username`),
+  UNIQUE KEY `email_16` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -166,7 +170,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Hyde','Stefan','DrHyde','heyd.stephane@gmail.com','$2b$10$9SGuBqZW4pTIaKG0XR5VFOK3ORIZ/tO9q0u37wXFkFhBBr4puqrSq',1,NULL,NULL,'2021-08-29 15:48:55','2021-08-29 15:48:55'),(2,'test','test','Test','test@test.com','$2b$10$Q43hLy8t7MdIdNJStjRBjOJJDxDBFKCw0nbf7aO4DWC.ubZVczZbe',0,NULL,NULL,'2021-08-30 06:12:58','2021-09-02 09:49:45');
+INSERT INTO `Users` VALUES (1,'Hyde','Stefan','DrHyde','heyd.stephane@gmail.com','$2b$10$9SGuBqZW4pTIaKG0XR5VFOK3ORIZ/tO9q0u37wXFkFhBBr4puqrSq',1,NULL,'https://media.istockphoto.com/photos/faceless-man-in-hoodie-standing-isolated-on-black-picture-id916306960?k=20&m=916306960&s=612x612&w=0&h=8RTlrr57mnAEVVPZ1d_HA9p24ewrpNu9paeF-HMklgo=','2021-08-29 15:48:55','2021-09-07 11:39:34'),(2,'test','test','testUser','test@test.com','$2b$10$Q43hLy8t7MdIdNJStjRBjOJJDxDBFKCw0nbf7aO4DWC.ubZVczZbe',0,NULL,'https://images.ladepeche.fr/api/v1/images/view/5cde8a093e45460aea39d615/large/image.jpg','2021-08-30 06:12:58','2021-09-07 09:19:22');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -179,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-09-03 17:08:06
+-- Dump completed on 2021-09-11  9:28:13
