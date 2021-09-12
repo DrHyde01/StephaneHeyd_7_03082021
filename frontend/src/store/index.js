@@ -20,6 +20,8 @@ const store = createStore({
     },
     posts: [],
     post: {},
+
+    message: "",
   },
 
   mutations: {
@@ -54,7 +56,8 @@ const store = createStore({
         (state.user.picture = ""),
         (state.user.isAdmin = false),
         (state.user.token = ""),
-        (state.posts = []);
+        (state.posts = []),
+        (state.message = "");
     },
 
     AUTH_ERROR(state) {
@@ -64,19 +67,21 @@ const store = createStore({
     // POSTS ---------------------------------------------------------------------------------------------------
     ADD_POST(state, post) {
       state.posts = [post, ...state.posts];
+      state.message = "Post publié !";
     },
 
     GET_POSTS(state, posts) {
       state.posts = posts;
+      state.message = "Posts récupérés !";
     },
 
     GET_ONE_POST(state, post) {
       state.post = post;
     },
 
-
     DELETE_POST(state, id) {
       state.posts = [...state.posts.filter((element) => element.id !== id)];
+      state.message = "Post supprimé !";
     },
   },
 
@@ -182,15 +187,17 @@ const store = createStore({
           .createPost(post)
           .then(function(response) {
             const post = response.data;
-            commit("GET_POSTS", post);
+            commit("ADD_POST", post);
             resolve(response.data);
           })
-          .then((response) => {
-            postService
-              .getAllPosts()
-              const posts = response.data
+          .then(() => {
+            postService.getAllPosts().then(function(response) {
+              const posts = response.data;
+              console.log(posts);
               commit("GET_POSTS", posts);
+              location.reload(false);
               resolve(response.data);
+            });
           })
           .catch(function(error) {
             reject(error);

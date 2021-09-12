@@ -13,13 +13,14 @@
         <!-- Condition à rajouter : si posts = 0 message invitant à poster, sinon garder le message ci-dessous -->
         <button
           type="button"
-          @click="displayModal()"
+          @click="displayModal"
           class="bg-gray-100 shadow-md hover:shadow-xl px-8 py-4 rounded-full"
         >
           <h2 class="text-center">
             Bonjour {{ username }}. Que partagez-vous ce {{ dayName }} ?
           </h2>
-          <post-modal v-if="showModal" />
+
+          <post-modal v-show="showModal" @close="closeModal" />
           <!-- Le composant modal s'affiche au click -->
         </button>
       </div>
@@ -51,7 +52,13 @@ export default {
 
   methods: {
     displayModal() {
-      this.showModal = !this.showModal;
+      this.showModal = true;
+      this.$router.push("/wall/add");
+    },
+
+    closeModal() {
+      this.showModal = false;
+      this.$router.push("/wall");
     },
   },
 

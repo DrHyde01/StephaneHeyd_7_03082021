@@ -41,7 +41,7 @@
           :disabled="!validatedFields"
           :class="{ 'opacity-25 cursor-not-allowed': !validatedFields }"
         >
-          <!-- Au click l'intitulé du bouton chance -->
+          <!-- Au click l'intitulé du bouton change -->
           <span v-if="status == 'loading'">Création du compte en cours...</span>
           <span v-else>Créer mon compte</span>
         </button>

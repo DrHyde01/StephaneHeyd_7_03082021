@@ -9,16 +9,16 @@ const routes = [
     component: () => import("../views/Home.vue"),
     meta: {
       title: "Groupomania - Accueil",
-    }
+    },
   },
-  
+
   {
     path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue"),
     meta: {
       title: "Groupomania - Connexion",
-    }
+    },
   },
 
   {
@@ -27,7 +27,7 @@ const routes = [
     component: () => import("../views/Signup.vue"),
     meta: {
       title: "Groupomania - Inscription",
-    }
+    },
   },
 
   {
@@ -37,7 +37,20 @@ const routes = [
     meta: {
       title: "Groupomania - Mur",
       requiresAuth: true, // Authentification requise, cf fonction beforeEach plus bas
-    }
+    },
+
+    children: [
+      {
+        path: "add",
+        component: () => import("../components/PostModal.vue"),
+        meta: {
+          title: "Groupomania - Publication",
+          showModal: true,
+          requiresAuth: true,
+          props: true,
+        },
+      },
+    ],
   },
 
   {
@@ -47,7 +60,7 @@ const routes = [
     meta: {
       title: "Groupomania - Profil",
       requiresAuth: true,
-    }
+    },
   },
 
   {
@@ -57,36 +70,38 @@ const routes = [
     component: () => import("../views/ErrorPage.vue"),
     meta: {
       title: "404 Not Found",
-    }
-  }
+    },
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  scrollBehavior() { // Permet de revenir à la position initiale de la page
-    window.scrollTo(0,0);
-  }
+  scrollBehavior() {
+    // Permet de revenir à la position initiale de la page
+    window.scrollTo(0, 0);
+  },
 });
 
 // Cette fonction empêche l'accès à certaines pages si l'user n'est pas authentifié
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) { // On utiliser les getters pour la vérification
-      next()
-      return
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      // On utiliser les getters pour la vérification
+      next();
+      return;
     }
-    next('/login') // Dans le cas échéant l'user est redirigé vers la page de connexion
+    next("/login"); // Dans le cas échéant l'user est redirigé vers la page de connexion
     alert("Bien essayé mais il va falloir se connecter ! 😀"); // NE PAS LAISSER ! ❌
   } else {
-    next()
+    next();
   }
-})
+});
 
 // Fonction permettant de mettre à jour le titre de la page en fonction du routeur
 router.afterEach((to, from) => {
   console.log(from, to);
   document.title = to.meta.title;
-})
+});
 
 export default router;
