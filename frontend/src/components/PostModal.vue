@@ -3,7 +3,7 @@
     <div class="fixed bottom-0 inset-x-0 flex" @click.stop>
       <div class="fixed inset-0 transition-opacity">
         <div
-          class="absolute overflow-y-auto inset-0 bg-gray-400 backdrop-filter backdrop-blur-md bg-opacity-40 "
+          class="absolute overflow-y-auto inset-0 bg-gray-200 backdrop-filter backdrop-blur-md bg-opacity-40 "
         >
           <div
             class="relative z-10 bg-white shadow-xl rounded-xl py-10 px-8 flex flex-col w-4/5 lg:w-1/3 my-40 mx-auto"
@@ -24,6 +24,7 @@
             </div>
             <h2 class="flex-start text-xl mb-6">Créer un post</h2>
 
+          <form>
             <div>
               <textarea
                 v-model="message"
@@ -75,7 +76,10 @@
               >
               <span v-else>Publier</span>
             </button>
+            
+          </form>
           </div>
+          
         </div>
       </div>
     </div>

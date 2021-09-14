@@ -87,6 +87,13 @@ const store = createStore({
     // LIKES --------------------------------------------------------------------------------------------------
     ADD_LIKE(state, like) {
       state.posts = [like, ...state.posts];
+      state.message = "Post liké / disliké";
+    },
+
+    // COMMENTAIRES -----------------------------------------------------------------------------------------
+    ADD_COMMENT(state, comment) {
+      state.posts = [comment, ...state.posts];
+      state.message = "Post commenté !";
     },
   },
 
@@ -292,6 +299,33 @@ const store = createStore({
           });
       });
     },
+
+    // COMMENTAIRES ----------------------------------------------------------------------------------------------
+    // Ajout d'un commentaire ---------------------------------------------------------------------------
+    addComment: ({ commit }, data) => {
+      return new Promise((resolve, reject) => {
+        postService
+          .createComment(data.id, data.data)
+          .then(function(response) {
+            const comment = response.data;
+            commit("ADD_COMMENT", comment);
+            resolve(response.data);
+          })
+          .then(() => {
+            // Important pour maintenir le state à jour !
+            postService.getAllPosts().then(function(response) {
+              const posts = response.data;
+              console.log(posts);
+              commit("GET_POSTS", posts);
+              resolve(response.data);
+            });
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
+
   },
 });
 

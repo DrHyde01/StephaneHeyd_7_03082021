@@ -26,6 +26,7 @@
       </div>
 
       <postView v-for="post of posts" :key="post.id" :post="post" :id="post.id">
+        <!-- Le contenu itéré sera affiché via le composant post.vue -->
       </postView>
     </div>
   </div>

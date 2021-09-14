@@ -34,12 +34,16 @@
               $store.state.user.isAdmin == true
           "
         >
-          <button type="button">
+          <button type="button" title="Modifer ce post">
             <PencilIcon
               class="h-6 w-5 mr-4 text-gray-300 hover:text-gray-600"
             />
           </button>
-          <button type="button" @click="deletePost(post.id)">
+          <button
+            type="button"
+            title="Suppriemr ce post"
+            @click="deletePost(post.id)"
+          >
             <TrashIcon class="h-6 w-5 mr-2 text-red-500 hover:text-red-600" />
           </button>
         </div>
@@ -63,22 +67,51 @@
         <p class="text-left">{{ post.message }}</p>
       </div>
 
-      <!-- Affichage du bouton like et du compteur : intégrer un bouton coeur permettant de liker ou d'annuler son like -->
-      <div class="flex items-center">
+      <!-- Affichage du bouton like et commentaires, et de leurs compteurs -->
+      <div class="flex items-center my-2 px-4">
         <div class="flex justify-between items-center mr-2">
-          <button type="button" @click="likePost(post.id)">
+          <button type="button" title="Liker" @click="likePost(post.id)">
             <HeartIcon :class="postLiked" />
           </button>
           <p class="text-xs font-light text-center">{{ post.Likes.length }}</p>
         </div>
         <div class="flex justify-between items-center">
-          <AnnotationIcon
-            class="h-6 w-6 mr-1 text-gray-300 hover:text-blue-400"
-          />
+          <button type="button" title="Accéder aux commentaires">
+            <AnnotationIcon
+              class="h-6 w-6 mr-1 text-gray-300 hover:text-gray-600"
+            />
+          </button>
           <p class="text-xs font-light text-center">
             {{ post.Comments.length }}
           </p>
         </div>
+      </div>
+
+      <!-- Section commentaires -->
+      <div class="flex flex-col w-full p-3 my-3 rounded-md bg-gray-100">
+        <form>
+          <div class="flex items-center">
+            <textarea
+              v-model="data.comment"
+              class="w-full rounded-md p-2 mr-2 border-2 border-gray-400 outline-none"
+              type="text"
+              rows="1"
+              placeholder="Votre commentaire"
+              aria-label="Ecrire un commentaire"
+            />
+            <button
+              type="button"
+              title="Envoyer le commentaire"
+              @click="commentPost(post.id)"
+            >
+              <ArrowCircleRightIcon
+                class="h-6 w-6  text-gray-400 hover:text-gray-600"
+                :disabled="!validatedFields"
+                :class="{ 'opacity-25 cursor-not-allowed': !validatedFields }"
+              />
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -93,6 +126,7 @@ import {
   StatusOnlineIcon,
   HeartIcon,
   AnnotationIcon,
+  ArrowCircleRightIcon,
 } from "@heroicons/vue/solid";
 
 export default {
@@ -104,6 +138,17 @@ export default {
     StatusOnlineIcon,
     HeartIcon,
     AnnotationIcon,
+    ArrowCircleRightIcon,
+  },
+
+  data: function() {
+    return {
+      comment: "",
+
+      data: {
+        comment: "",
+      },
+    };
   },
 
   props: {
@@ -125,6 +170,14 @@ export default {
     deletePost(id) {
       this.$store.dispatch("deleteOnePost", id);
     },
+
+    commentPost(id) {
+      this.$store.dispatch("addComment", {
+        id: id,
+        data: this.data,
+      });
+      this.data.comment = ""; // Supprime le commentaire après l'envoi
+    },
   },
 
   computed: {
@@ -134,9 +187,17 @@ export default {
       let userLike = this.post.Likes.map((id) => id.UserId);
       if (userLike == userId) {
         // Egalité stricte ne fonctionne pas, à vérifier !
-        return "h-6 w-6 mr-1 text-pink-600 "; 
+        return "h-6 w-6 mr-1 text-pink-600 ";
       } else {
         return "h-6 w-6 mr-1 text-gray-300 hover:text-pink-600";
+      }
+    },
+
+    validatedFields: function() {
+      if (this.data.comment != "") {
+        return true;
+      } else {
+        return false;
       }
     },
   },
