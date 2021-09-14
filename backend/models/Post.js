@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
     },
 
     message: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT, // Aucune limite de caractères contrairement à STRING
       allowNull: false,
     },
 

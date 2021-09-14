@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
     },
 
     comment: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
       allowNull: false,
     },
   });

@@ -18,7 +18,7 @@ router.delete("/:id", auth, multer, postsCtrl.deletePost); // Suppression d'un p
 // Commentaires
 router.post("/:postId/comments", auth, commentsCtrl.createComment); // Ajout d'un commentaire
 router.get("/:postId/comments", auth, commentsCtrl.getComments); // Obtention de tout les commentaires d'un post
-router.delete("/:postId/comments/:id", auth, commentsCtrl.deleteComment); // Suppression d'un commentaire
+router.delete("/comments/:id", auth, commentsCtrl.deleteComment); // Suppression d'un commentaire
 
 // Likes
 router.post("/:postId/likes", auth, likesCtrl.addLike);

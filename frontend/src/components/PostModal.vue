@@ -27,7 +27,7 @@
             <div>
               <textarea
                 v-model="message"
-                class="w-full p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+                class="w-full rounded-xl p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
                 type="text"
                 placeholder="Votre message"
                 aria-label="Ecrire un message"
@@ -45,7 +45,7 @@
                 ref="file"
                 label
                 for="image"
-                class="w-full p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+                class="w-full rounded-xl p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
                 type="file"
                 accept="image/png, image/jpeg, image/gif"
                 aria-label="Rajouter un fichier"
@@ -53,7 +53,7 @@
 
               <input
                 v-model="link"
-                class="w-full p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+                class="w-full rounded-xl p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
                 type="text"
                 placeholder="Votre lien"
                 aria-label="Rajouter un lien"
@@ -66,7 +66,7 @@
                 submitPost();
                 close();
               "
-              class=" bg-gray-500 hover:bg-gray-600 hover:shadow-xl text-white font-bold py-2 px-4 rounded mx-20"
+              class=" bg-gray-500 hover:bg-gray-600 rounded-xl hover:shadow-xl text-white font-bold py-2 px-4  mx-20"
               :disabled="!validatedFields"
               :class="{ 'opacity-25 cursor-not-allowed': !validatedFields }"
             >
@@ -135,11 +135,10 @@ export default {
       // Permet de reset le formulaire
       this.message = "";
       this.link = null;
-      this.$refs.file.value = null
+      this.$refs.file.value = null;
     },
 
     close() {
-      
       this.$emit("close");
       this.resetForm(); // Reset du formulaire à la fermeture de la modal
     },

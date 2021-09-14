@@ -2,8 +2,6 @@
   <div class="flex flex-col">
     <div
       class="flex flex-col  lg:mx-20 mx-0 my-4 py-4 px-4 border-2 rounded-md shadow-md"
-      v-for="post in posts"
-      :key="post.id"
     >
       <div class="flex items-center">
         <div class="flex items-center">
@@ -15,7 +13,7 @@
           />
         </div>
 
-        <div class="flex flex-1 items-center">
+        <div class="flex flex-wrap flex-1 items-center">
           <p class="text-center font-medium text-gray-600">
             {{ post.User.username }}
           </p>
@@ -38,11 +36,11 @@
         >
           <button type="button">
             <PencilIcon
-              class="h-6 w-5 mr-4 text-gray-400 hover:text-gray-800"
+              class="h-6 w-5 mr-4 text-gray-300 hover:text-gray-600"
             />
           </button>
           <button type="button" @click="deletePost(post.id)">
-            <TrashIcon class="h-6 w-5 mr-2 text-gray-400 hover:text-red-600" />
+            <TrashIcon class="h-6 w-5 mr-2 text-red-500 hover:text-red-600" />
           </button>
         </div>
       </div>
@@ -66,35 +64,80 @@
       </div>
 
       <!-- Affichage du bouton like et du compteur : intégrer un bouton coeur permettant de liker ou d'annuler son like -->
-
-      <!-- Affichage des commentaires et du compteur : intégrer un bouton permettant de les afficher -->
+      <div class="flex items-center">
+        <div class="flex justify-between items-center mr-2">
+          <button type="button" @click="likePost(post.id)">
+            <HeartIcon :class="postLiked" />
+          </button>
+          <p class="text-xs font-light text-center">{{ post.Likes.length }}</p>
+        </div>
+        <div class="flex justify-between items-center">
+          <AnnotationIcon
+            class="h-6 w-6 mr-1 text-gray-300 hover:text-blue-400"
+          />
+          <p class="text-xs font-light text-center">
+            {{ post.Comments.length }}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
 import moment from "moment";
 
-import { PencilIcon, TrashIcon, StatusOnlineIcon } from "@heroicons/vue/solid";
+import {
+  PencilIcon,
+  TrashIcon,
+  StatusOnlineIcon,
+  HeartIcon,
+  AnnotationIcon,
+} from "@heroicons/vue/solid";
 
 export default {
   name: "Posts",
 
-  components: { PencilIcon, TrashIcon, StatusOnlineIcon },
+  components: {
+    PencilIcon,
+    TrashIcon,
+    StatusOnlineIcon,
+    HeartIcon,
+    AnnotationIcon,
+  },
+
+  props: {
+    post: {
+      type: Object,
+    },
+  },
 
   created: function() {
     this.moment = moment; // Permet le formatage de la date du post
     moment.locale("fr");
   },
 
-  computed: {
-    ...mapState({ posts: (state) => state.posts }), // On map les posts disponibles dans le store
-  },
-
   methods: {
+    likePost(id) {
+      this.$store.dispatch("postLike", id);
+    },
+
     deletePost(id) {
       this.$store.dispatch("deleteOnePost", id);
+    },
+  },
+
+  computed: {
+    postLiked() {
+      // Le bouton like reste en rose si l'user a déjà liké l'article
+      const userId = this.$store.state.user.userId;
+      let userLike = this.post.Likes.map((id) => id.UserId);
+      if (userLike == userId) {
+        // Egalité stricte ne fonctionne pas, à vérifier !
+        return "h-6 w-6 mr-1 text-pink-600 "; 
+      } else {
+        return "h-6 w-6 mr-1 text-gray-300 hover:text-pink-600";
+      }
     },
   },
 };

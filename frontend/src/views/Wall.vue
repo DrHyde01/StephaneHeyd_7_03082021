@@ -25,7 +25,8 @@
         </button>
       </div>
 
-      <postView />
+      <postView v-for="post of posts" :key="post.id" :post="post" :id="post.id">
+      </postView>
     </div>
   </div>
 </template>
@@ -63,7 +64,10 @@ export default {
   },
 
   computed: {
-    ...mapState({ username: (state) => state.user.username }), // Récuparation du nom de l'user connecté
+    ...mapState({
+      username: (state) => state.user.username,
+      posts: (state) => state.posts,
+    }), // Récuparation du nom de l'user connecté
 
     dayName() {
       // Récupération du jour actuel

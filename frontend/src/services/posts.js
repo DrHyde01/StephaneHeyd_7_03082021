@@ -20,4 +20,20 @@ export default {
   deletePost(id) {
     return API().delete("posts/" + id);
   },
+
+  addLike(id) {
+    return API().post("posts/" + id + "/likes");
+  },
+
+  createComment(id, data) {
+    return API().post("posts/" + id + "/comments", data);
+  },
+
+  getComments(id) {
+    return API().get("posts/" + id + "/comments");
+  },
+
+  deleteComment(id) {
+    return API().delete("posts/" + id + "/comments");
+  },
 };

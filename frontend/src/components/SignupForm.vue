@@ -4,31 +4,31 @@
       <div>
         <input
           v-model="firstName"
-          class="w-full p-2 mb-6 border-b-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+          class="w-full p-2 mb-6 rounded-xl border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="text"
           placeholder="Votre nom"
         />
         <input
           v-model="lastName"
-          class="w-full p-2 mb-6 border-b-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+          class="w-full p-2 mb-6 rounded-xl border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="text"
           placeholder="Votre prénom"
         />
         <input
           v-model="username"
-          class="w-full p-2 mb-6 border-b-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+          class="w-full p-2 mb-6 rounded-xl border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="text"
           placeholder="Un pseudo"
         />
         <input
           v-model="email"
-          class="w-full p-2 mb-6 border-b-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+          class="w-full p-2 mb-6 rounded-xl border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="text"
           placeholder="Votre adresse mail"
         />
         <input
           v-model="password"
-          class="w-full p-2 mb-6 border-b-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+          class="w-full p-2 mb-6 rounded-xl border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="password"
           placeholder="Un mot de passe"
         />
@@ -37,7 +37,7 @@
         <button
           type="button"
           @click="createAccount()"
-          class="w-full bg-gray-500 hover:bg-gray-600 hover:shadow-xl text-white font-bold py-2 px-4 rounded"
+          class="w-full rounded-xl bg-gray-500 hover:bg-gray-600 hover:shadow-xl text-white font-bold py-2 px-4 "
           :disabled="!validatedFields"
           :class="{ 'opacity-25 cursor-not-allowed': !validatedFields }"
         >

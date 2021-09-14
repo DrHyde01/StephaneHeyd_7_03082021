@@ -83,6 +83,11 @@ const store = createStore({
       state.posts = [...state.posts.filter((element) => element.id !== id)];
       state.message = "Post supprimé !";
     },
+
+    // LIKES --------------------------------------------------------------------------------------------------
+    ADD_LIKE(state, like) {
+      state.posts = [like, ...state.posts];
+    },
   },
 
   getters: {
@@ -238,8 +243,6 @@ const store = createStore({
       });
     },
 
-    // Création d'un post ---------------------------------------------------------------------------
-
     // Suppresion d'un post précis -----------------------------------------------------------------
     deleteOnePost: ({ commit }, id) => {
       return new Promise((resolve, reject) => {
@@ -248,6 +251,41 @@ const store = createStore({
           .then(function(response) {
             commit("DELETE_POST", id); // Le commit permet de supprimer l'élément du store
             resolve(response);
+          })
+          .then(() => {
+            postService.getAllPosts().then(function(response) {
+              const posts = response.data;
+              console.log(posts);
+              commit("GET_POSTS", posts);
+              resolve(response.data);
+            });
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
+
+    // LIKES ----------------------------------------------------------------------------------------------
+
+    // Ajout d'un like ---------------------------------------------------------------------------
+    postLike: ({ commit }, id) => {
+      return new Promise((resolve, reject) => {
+        postService
+          .addLike(id)
+          .then(function(response) {
+            const like = response.data;
+            commit("ADD_LIKE", like);
+            resolve(response);
+          })
+          .then(() => {
+            // Important pour maintenir le state à jour !
+            postService.getAllPosts().then(function(response) {
+              const posts = response.data;
+              console.log(posts);
+              commit("GET_POSTS", posts);
+              resolve(response.data);
+            });
           })
           .catch(function(error) {
             reject(error);

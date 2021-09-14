@@ -36,7 +36,7 @@ dataBaseTest();
 
 // Mise à jour de la BDD --------------------------------------------------------------------------------
 db.sequelize
-  .sync({ force: false})
+  .sync({ force: false}) // Basculer sur alter : true si modification de la structure des tables
   .then(() => console.log("Database is updating !"))
   .catch((error) => console.log("Oops, something wrong here !", error));
 
