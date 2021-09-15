@@ -52,11 +52,14 @@ exports.deleteComment = (req, res, next) => {
       id: req.params.id,
     },
   });
-  db.Comment.destroy({
-    where: {
-      id: req.params.id,
+  db.Comment.destroy(
+    {
+      where: {
+        id: req.params.id,
+      },
     },
-  })
+    { truncate: true }
+  )
     .then(() => res.status(200).json({ message: "Commentaire supprimé !" }))
 
     .catch((error) => res.status(400).json({ error }));

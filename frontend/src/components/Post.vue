@@ -14,7 +14,7 @@
         </div>
 
         <div class="flex flex-wrap flex-1 items-center">
-          <p class="text-center font-medium text-gray-600">
+          <p class="text-center font-semibold text-gray-600">
             {{ post.User.username }}
           </p>
           <StatusOnlineIcon
@@ -44,7 +44,7 @@
             title="Suppriemr ce post"
             @click="deletePost(post.id)"
           >
-            <TrashIcon class="h-6 w-5 mr-2 text-red-500 hover:text-red-600" />
+            <TrashIcon class="h-6 w-5 mr-2 text-red-400 hover:text-red-600" />
           </button>
         </div>
       </div>
@@ -88,7 +88,7 @@
       </div>
 
       <!-- Section commentaires -->
-      <div class="flex flex-col w-full p-3 my-3 rounded-md bg-gray-100">
+      <div class="flex flex-col w-full p-3 my-3 rounded-md bg-gray-50">
         <form>
           <div class="flex items-center">
             <textarea
@@ -112,6 +112,35 @@
             </button>
           </div>
         </form>
+        <div
+          class="items-center p-2 
+        "
+        >
+          <div
+            v-for="comment of post.Comments"
+            :key="comment.id"
+            class="flex
+            my-2 items-center"
+          >
+            <img
+              v-if="comment.User.picture !== null"
+              class="inline object-cover rounded-full h-8 w-8  mr-2"
+              :src="comment.User.picture"
+              alt="photo de profil"
+            />
+            <div class="flex-col items-center w-full p-2 bg-gray-100 rounded-xl">
+              <div class="flex items-baseline">
+                <p class="text-sm font-semibold text-gray-600 mr-2">
+                  {{ comment.User.username }}
+                </p>
+                <p class="text-xs font-thin">
+                  {{ moment(comment.createdAt).format("[le] DD MMMM YYYY [à] HH:mm") }}
+                </p>
+              </div>
+              <p class="text-sm font-light">{{ comment.comment }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -185,7 +214,7 @@ export default {
       // Le bouton like reste en rose si l'user a déjà liké l'article
       const userId = this.$store.state.user.userId;
       let userLike = this.post.Likes.map((id) => id.UserId);
-      if (userLike == userId) {
+      if (userLike.includes(userId)) {
         // Egalité stricte ne fonctionne pas, à vérifier !
         return "h-6 w-6 mr-1 text-pink-600 ";
       } else {

@@ -25,4 +25,10 @@ export default {
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
+
+html, body {
+  margin:0;
+  padding:0;
+  height:100%;
+}
 </style>

@@ -19,12 +19,15 @@ exports.addLike = async (req, res, next) => {
 
     if (userLike) {
       // Si oui on le supprime de la BDD
-      await db.Like.destroy({
-        where: {
-          UserId: userId,
-          PostId: req.params.postId,
+      await db.Like.destroy(
+        {
+          where: {
+            UserId: userId,
+            PostId: req.params.postId,
+          },
         },
-      });
+        { truncate: true }
+      );
       res.status(200).json({ message: "Post disliké" });
     } else {
       // Sinon le rajoute

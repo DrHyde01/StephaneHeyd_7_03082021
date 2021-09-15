@@ -289,7 +289,6 @@ const store = createStore({
             // Important pour maintenir le state à jour !
             postService.getAllPosts().then(function(response) {
               const posts = response.data;
-              console.log(posts);
               commit("GET_POSTS", posts);
               resolve(response.data);
             });
@@ -326,6 +325,28 @@ const store = createStore({
       });
     },
 
+    // Suppresion d'un commentaire précis -----------------------------------------------------------
+    deleteOneComment: ({ commit }, id) => {
+      return new Promise((resolve, reject) => {
+        postService
+          .deleteComment(id)
+          .then(function(response) {
+            commit("DELETE_COMMENT", id); // Le commit permet de supprimer l'élément du store
+            resolve(response);
+          })
+          .then(() => {
+            postService.getAllPosts().then(function(response) {
+              const posts = response.data;
+              console.log(posts);
+              commit("GET_POSTS", posts);
+              resolve(response.data);
+            });
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
   },
 });
 

@@ -10,19 +10,27 @@
           :src="$store.state.user.picture"
           alt="photo de profil"
         />
-        <!-- Condition à rajouter : si posts = 0 message invitant à poster, sinon garder le message ci-dessous -->
         <button
           type="button"
           @click="displayModal"
-          class="bg-gray-100 shadow-md hover:shadow-xl px-8 py-4 rounded-full"
+          class="bg-gray-100 shadow-md hover:shadow-xl px-8 py-4 rounded-xl"
         >
-          <h2 class="text-center">
-            Bonjour {{ username }}. Que partagez-vous ce {{ dayName }} ?
-          </h2>
+          <div>
+            <h2 class="text-center">
+              Bonjour {{ username }}. Que partagez-vous ce {{ dayName }} ?
+            </h2>
+          </div>
 
           <post-modal v-show="showModal" @close="closeModal" />
           <!-- Le composant modal s'affiche au click -->
         </button>
+      </div>
+
+      <div v-if="$store.state.posts == 0"
+      class="flex justify-center m-28">
+        <p class="text-center">Personne n'a encore publié par ici !<br>
+        Et si vous partagez quelque chose en cliquant simplement sur le bouton ci-dessus ? 🙂</p>
+
       </div>
 
       <postView v-for="post of posts" :key="post.id" :post="post" :id="post.id">
