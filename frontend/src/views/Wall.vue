@@ -63,7 +63,7 @@ export default {
   methods: {
     displayModal() {
       this.showModal = true;
-      this.$router.push("/wall/add");
+      this.$router.push("/posts/add");
     },
 
     closeModal() {

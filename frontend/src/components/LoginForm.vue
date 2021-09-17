@@ -4,13 +4,13 @@
       <div>
         <input
           v-model="username"
-          class="w-full p-2 mb-6 rounded-xl border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+          class="w-full p-2 mb-6 rounded-md border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="text"
           placeholder="Votre pseudo"
         />
         <input
           v-model="password"
-          class="w-full p-2 mb-6 rounded-xl border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+          class="w-full p-2 mb-6 rounded-md border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="password"
           placeholder="Votre mot de passe"
         />
@@ -19,7 +19,7 @@
         <button
           type="button"
           @click="logToAccount();"
-          class="w-full rounded-xl border-2 bg-gray-500 hover:bg-gray-600 hover:shadow-xl text-white font-bold py-2 px-4"
+          class="w-full rounded-md border-2 bg-gray-500 hover:bg-gray-600 hover:shadow-xl text-white font-bold py-2 px-4"
           :disabled="!validatedFields"
           :class="{ 'opacity-25 cursor-not-allowed': !validatedFields }"
         >

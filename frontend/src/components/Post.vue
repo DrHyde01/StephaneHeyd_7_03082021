@@ -34,14 +34,19 @@
               $store.state.user.isAdmin == true
           "
         >
-          <button type="button" title="Modifer ce post">
+          <button
+            type="button"
+            title="Modifer ce post"
+            @click="modifyPost(post.id)"
+          >
             <PencilIcon
               class="h-6 w-5 mr-4 text-gray-300 hover:text-gray-600"
             />
           </button>
+          <modifyModal v-show="showModal" @close="closeModifyPost" />
           <button
             type="button"
-            title="Suppriemr ce post"
+            title="Supprimer ce post"
             @click="deletePost(post.id)"
           >
             <TrashIcon class="h-6 w-5 mr-2 text-red-400 hover:text-red-600" />
@@ -76,7 +81,11 @@
           <p class="text-xs font-light text-center">{{ post.Likes.length }}</p>
         </div>
         <div class="flex justify-between items-center">
-          <button type="button" title="Accéder aux commentaires">
+          <button
+            type="button"
+            title="Accéder aux commentaires"
+            @click="showComments = !showComments"
+          >
             <AnnotationIcon
               class="h-6 w-6 mr-1 text-gray-300 hover:text-gray-600"
             />
@@ -88,12 +97,15 @@
       </div>
 
       <!-- Section commentaires -->
-      <div class="flex flex-col w-full p-3 my-3 rounded-md bg-gray-50">
+      <div
+        class="flex flex-col w-full p-3 my-3 rounded-md bg-gray-50"
+        v-show="showComments"
+      >
         <form>
           <div class="flex items-center">
             <textarea
               v-model="data.comment"
-              class="w-full rounded-md p-2 mr-2 border-2 border-gray-400 outline-none"
+              class="w-full rounded-md p-2 mr-2 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
               type="text"
               rows="1"
               placeholder="Votre commentaire"
@@ -128,14 +140,37 @@
               :src="comment.User.picture"
               alt="photo de profil"
             />
-            <div class="flex-col items-center w-full p-2 bg-gray-100 rounded-xl">
-              <div class="flex items-baseline">
+            <div
+              class="flex-col items-center w-full p-2 bg-gray-100 rounded-xl"
+            >
+              <div class="flex items-center">
                 <p class="text-sm font-semibold text-gray-600 mr-2">
                   {{ comment.User.username }}
                 </p>
                 <p class="text-xs font-thin">
-                  {{ moment(comment.createdAt).format("[le] DD MMMM YYYY [à] HH:mm") }}
+                  {{
+                    moment(comment.createdAt).format(
+                      "[le] DD MMMM YYYY [à] HH:mm"
+                    )
+                  }}
                 </p>
+                <div
+                  v-if="
+                    $store.state.user.userId == comment.UserId ||
+                      $store.state.user.isAdmin == true
+                  "
+                  class=""
+                >
+                  <button
+                    type="button"
+                    title="Supprimer ce commentaire"
+                    @click="deleteComment(comment.id)"
+                  >
+                    <TrashIcon
+                      class="h-4 w-4 ml-2 text-red-400 hover:text-red-600"
+                    />
+                  </button>
+                </div>
               </div>
               <p class="text-sm font-light">{{ comment.comment }}</p>
             </div>
@@ -148,6 +183,7 @@
 
 <script>
 import moment from "moment";
+import modifyModal from "../components/PostModifyModal.vue";
 
 import {
   PencilIcon,
@@ -162,6 +198,7 @@ export default {
   name: "Posts",
 
   components: {
+    modifyModal,
     PencilIcon,
     TrashIcon,
     StatusOnlineIcon,
@@ -170,15 +207,17 @@ export default {
     ArrowCircleRightIcon,
   },
 
-  data: function() {
-    return {
-      comment: "",
+  data: () => ({
+    comment: "",
 
-      data: {
-        comment: "",
-      },
-    };
-  },
+    showComments: false, // La div des commentaires ne s'affiche pas à la base
+
+    showModal: false, // Ni la modale permettant de modifier un post
+
+    data: {
+      comment: "",
+    },
+  }),
 
   props: {
     post: {
@@ -192,12 +231,21 @@ export default {
   },
 
   methods: {
-    likePost(id) {
-      this.$store.dispatch("postLike", id);
+    modifyPost(id) {
+      (this.showModal = true), this.$router.push(`/posts/${id}`);
+    },
+
+    closeModifyPost() {
+      this.showModal = false;
+      this.$router.push("/wall");
     },
 
     deletePost(id) {
       this.$store.dispatch("deleteOnePost", id);
+    },
+
+    likePost(id) {
+      this.$store.dispatch("postLike", id);
     },
 
     commentPost(id) {
@@ -207,6 +255,10 @@ export default {
       });
       this.data.comment = ""; // Supprime le commentaire après l'envoi
     },
+
+    deleteComment(id) {
+      this.$store.dispatch("deleteOneComment", id);
+    },
   },
 
   computed: {
@@ -214,7 +266,7 @@ export default {
       // Le bouton like reste en rose si l'user a déjà liké l'article
       const userId = this.$store.state.user.userId;
       let userLike = this.post.Likes.map((id) => id.UserId);
-      if (userLike.includes(userId)) {
+      if (userLike == userId) {
         // Egalité stricte ne fonctionne pas, à vérifier !
         return "h-6 w-6 mr-1 text-pink-600 ";
       } else {

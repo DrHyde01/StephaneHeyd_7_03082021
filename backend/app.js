@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("./models"); // Utilisation des modèles pour la BDD
 const path = require("path");
+const helmet = require('helmet');
 
 // Import des routes ----------------------------------------------------------------------------------------
 const usersRoutes = require("./routes/users.js");
@@ -43,6 +44,7 @@ db.sequelize
 // Utilisation des fonctionnalités ou packages -----------------------------------------------------------
 app.use(express.json()); // Remplace bodyParser sur les dernières versions de Express
 app.use(express.urlencoded({ extended: true })); // En complément de express.json
+app.use(helmet()); // Utilisation du package Helmet pour sécuriser davantage nos routes
 app.use('/images/', express.static(path.join(__dirname, 'images'))); // Pour que Express gère le dossier images de manière statique à chaque requête 
 
 

@@ -41,10 +41,23 @@ const routes = [
 
     children: [
       {
-        path: "add",
+        path: "/posts/add",
+        name: "addPost",
         component: () => import("../components/PostModal.vue"),
         meta: {
-          title: "Groupomania - Publication",
+          title: "Groupomania - Publier",
+          showModal: true,
+          requiresAuth: true,
+          props: true,
+        },
+      },
+
+      {
+        path: "/posts/:id",
+        name: "modifyPost",
+        component: () => import("../components/PostModifyModal.vue"),
+        meta: {
+          title: "Groupomania - Modifier un post",
           showModal: true,
           requiresAuth: true,
           props: true,

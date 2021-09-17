@@ -18,11 +18,11 @@ exports.createPost = (req, res, next) => {
   })
     // Et enregistrons son post dans la BDD
     .then(() => {
-      let imageUrl 
+      let imageUrl;
       if (req.file) {
-         imageUrl = `${req.protocol}://${req.get("host")}/images/${
+        imageUrl = `${req.protocol}://${req.get("host")}/images/${
           req.file.filename
-        }`; // A vérifier pour req.file.filename
+        }`;
       } else {
         imageURL = null;
       }
@@ -127,30 +127,49 @@ exports.getAllPosts = (req, res, next) => {
 };
 
 // Mise à jour d'un post -----------------------------------------------------------------------------
-exports.updatePost = (req, res, next) => {
-  const postObject = req.file
-    ? {
-        ...JSON.parse(req.body.post),
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${
-          req.body.filename
-        }`,
+exports.updatePost = async (req, res, next) => {
+  let newImageUrl;
+  let post = await db.Post.findOne({ where: { id: req.params.id } });
+  // Await important ! findOne doit s'éxécuter AVANT post.imageURL !
+
+  // Si nouvelle image celle ci est enregistrée
+  if (req.file) {
+    newImageUrl = `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`;
+  } else {
+    newImageUrl = null; // Si aucune image à afficher on retourne null, ce qui évitera un bug d'affichage en front
+  }
+
+  // Et la précédente est supprimée
+  if (post.imageURL) {
+    const filename = post.imageURL.split("/images/")[1];
+    fs.unlink(`images/${filename}`, (error) => {
+      if (error) console.log(error);
+      else {
+        console.log(`Deleted file: images/${filename}`);
       }
-    : { ...req.body };
+    });
+  }
+
   db.Post.findOne({
     where: {
       id: req.params.id,
     },
   })
-    .then((post) => {
-      if (post) {
-        db.Post.update(postObject, {
+    .then(() => {
+      db.Post.update(
+        {
+          message: req.body.message,
+          imageURL: newImageUrl,
+          link: req.body.link,
+        },
+        {
           where: { id: req.params.id },
-        })
-          .then(() => res.status(200).json({ message: "Post mis à jour !" }))
-          .catch((error) => res.status(400).json({ error }));
-      } else {
-        res.status(404).json({ error });
-      }
+        }
+      )
+        .then(() => res.status(200).json({ message: "Post mis à jour !" }))
+        .catch((error) => res.status(400).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
 };
@@ -173,7 +192,6 @@ exports.deletePost = (req, res, next) => {
           res.status(200).json({ message: "Post supprimé !" });
         });
       } else {
-        // Sinon on supprime uniquement l'user
         db.Post.destroy(
           { where: { id: post.id } },
           { truncate: true, restartIdentity: true }

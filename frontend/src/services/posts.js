@@ -13,11 +13,11 @@ export default {
     return API().get("posts/");
   },
 
-  updatePost(id, data) {
+  updateOnePost(id, data) {
     return API().put("posts/" + id, data);
   },
 
-  deletePost(id) {
+  deleteOnePost(id) {
     return API().delete("posts/" + id);
   },
 
@@ -34,6 +34,6 @@ export default {
   },
 
   deleteComment(id) {
-    return API().delete("posts/" + id + "/comments");
+    return API().delete("posts/comments/" + id);
   },
 };

@@ -79,6 +79,11 @@ const store = createStore({
       state.post = post;
     },
 
+    UPDATE_POST(state, post) {
+      state.posts = [post, ...state.posts];
+      state.message = "Post modifié !";
+    },
+
     DELETE_POST(state, id) {
       state.posts = [...state.posts.filter((element) => element.id !== id)];
       state.message = "Post supprimé !";
@@ -94,6 +99,11 @@ const store = createStore({
     ADD_COMMENT(state, comment) {
       state.posts = [comment, ...state.posts];
       state.message = "Post commenté !";
+    },
+
+    DELETE_COMMENT(state, id) {
+      state.posts = [...state.posts.filter((element) => element.id !== id)];
+      state.message = "Commentaire supprimé !";
     },
   },
 
@@ -240,9 +250,32 @@ const store = createStore({
           .getOnePost(id)
           .then(function(response) {
             const post = response.data;
-            console.log(post);
             commit("GET_ONE_POST", post);
             resolve(response.data);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
+
+    // Modification d'un post ---------------------------------------------------------------------
+    updatePost({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        postService
+          .updateOnePost(data.id, data.data)
+          .then(function(response) {
+            const post = response.data;
+            commit("UPDATE_POST", post);
+            resolve(response.data);
+          })
+          .then(() => {
+            postService.getAllPosts().then(function(response) {
+              const posts = response.data;
+              commit("GET_POSTS", posts);
+              location.reload(false);
+              resolve(response.data);
+            });
           })
           .catch(function(error) {
             reject(error);
@@ -254,7 +287,7 @@ const store = createStore({
     deleteOnePost: ({ commit }, id) => {
       return new Promise((resolve, reject) => {
         postService
-          .deletePost(id)
+          .deleteOnePost(id)
           .then(function(response) {
             commit("DELETE_POST", id); // Le commit permet de supprimer l'élément du store
             resolve(response);
@@ -262,7 +295,6 @@ const store = createStore({
           .then(() => {
             postService.getAllPosts().then(function(response) {
               const posts = response.data;
-              console.log(posts);
               commit("GET_POSTS", posts);
               resolve(response.data);
             });
@@ -314,7 +346,6 @@ const store = createStore({
             // Important pour maintenir le state à jour !
             postService.getAllPosts().then(function(response) {
               const posts = response.data;
-              console.log(posts);
               commit("GET_POSTS", posts);
               resolve(response.data);
             });
@@ -337,7 +368,6 @@ const store = createStore({
           .then(() => {
             postService.getAllPosts().then(function(response) {
               const posts = response.data;
-              console.log(posts);
               commit("GET_POSTS", posts);
               resolve(response.data);
             });
