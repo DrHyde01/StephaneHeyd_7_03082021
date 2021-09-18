@@ -27,7 +27,7 @@
             <form>
               <div>
                 <textarea
-                  v-model="message"
+                  v-model="post.message"
                   class="w-full rounded-md p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
                   type="text"
                   placeholder="Votre message"
@@ -46,7 +46,7 @@
                 />
 
                 <input
-                  v-model="link"
+                  v-model="post.link"
                   class="w-full rounded-md p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
                   type="text"
                   placeholder="Votre lien"
@@ -89,23 +89,26 @@ export default {
   components: { XCircleIcon },
 
   data: function() {
-    return {
-      message: "",
-      file: null,
-      link: null,
-    };
+    return {};
   },
 
   computed: {
     validatedFields: function() {
-      if (this.message != "") {
+      if (
+        this.post.message != "" ||
+        this.file != null ||
+        this.post.link != null
+      ) {
         return true;
       } else {
         return false;
       }
     },
 
-    ...mapState({ messages: (state) => state.message }),
+    ...mapState({
+      messages: (state) => state.message,
+      post: (state) => state.post,
+    }),
   },
 
   methods: {
@@ -120,10 +123,13 @@ export default {
       let id = this.$route.params.id;
 
       let formData = new FormData();
-      formData.append("message", this.message);
 
-      if (this.link !== null) {
-        formData.append("link", this.link);
+      if (this.post.message !== "") {
+        formData.append("message", this.post.message);
+      }
+
+      if (this.post.link !== null) {
+        formData.append("link", this.post.link);
       }
       if (this.file !== null) {
         formData.append("image", this.file);
@@ -134,16 +140,8 @@ export default {
       });
     },
 
-    resetForm() {
-      // Permet de reset le formulaire
-      this.message = "";
-      this.link = null;
-      this.$refs.file.value = null;
-    },
-
     close() {
       this.$emit("close");
-      this.resetForm(); // Reset du formulaire à la fermeture de la modal
     },
   },
 };

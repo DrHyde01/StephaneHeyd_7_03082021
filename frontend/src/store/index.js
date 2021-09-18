@@ -57,6 +57,7 @@ const store = createStore({
         (state.user.isAdmin = false),
         (state.user.token = ""),
         (state.posts = []),
+        (state.post = {}),
         (state.message = "");
     },
 
@@ -234,7 +235,7 @@ const store = createStore({
           .getAllPosts()
           .then(function(response) {
             const posts = response.data;
-            console.log(posts);
+            //console.log(posts);
             commit("GET_POSTS", posts);
             resolve(response.data);
           })
@@ -250,6 +251,7 @@ const store = createStore({
           .getOnePost(id)
           .then(function(response) {
             const post = response.data;
+            //console.log(post)
             commit("GET_ONE_POST", post);
             resolve(response.data);
           })

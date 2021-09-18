@@ -233,6 +233,7 @@ export default {
   methods: {
     modifyPost(id) {
       (this.showModal = true), this.$router.push(`/posts/${id}`);
+      this.$store.dispatch("getPostByID", id); // Récupération du contenu du post dès ouverture de la modale
     },
 
     closeModifyPost() {

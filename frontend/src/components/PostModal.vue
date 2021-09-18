@@ -24,64 +24,63 @@
             </div>
             <h2 class="flex-start text-xl mb-6">Créer un post</h2>
 
-          <form>
-            <div>
-              <textarea
-                v-model="message"
-                class="w-full rounded-md p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
-                type="text"
-                placeholder="Votre message"
-                aria-label="Ecrire un message"
-              />
+            <form>
+              <div>
+                <textarea
+                  v-model="message"
+                  class="w-full rounded-md p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+                  type="text"
+                  placeholder="Votre message"
+                  aria-label="Ecrire un message"
+                />
 
-              <p class="text-sm font-thin italic text-left mb-6">
-                La publication doit contenir au moins un message, qui peut être
-                agrémenté par une image issue d'un fichier, ou d'un lien.<br />
-                Les images doivent utiliser les formats suivants : .jpeg, .png,
-                .gif
-              </p>
+                <p class="text-sm font-thin italic text-left mb-6">
+                  La publication doit contenir au moins un message, qui peut
+                  être agrémenté par une image issue d'un fichier, ou d'un
+                  lien.<br />
+                  Les images doivent utiliser les formats suivants : .jpeg,
+                  .png, .gif
+                </p>
 
-              <input
-                @change="uploadFile"
-                ref="file"
-                label
-                for="image"
-                class="w-full rounded-md p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
-                type="file"
-                accept="image/png, image/jpeg, image/gif"
-                aria-label="Rajouter un fichier"
-              />
+                <input
+                  @change="uploadFile"
+                  ref="file"
+                  label
+                  for="image"
+                  class="w-full rounded-md p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+                  type="file"
+                  accept="image/png, image/jpeg, image/gif"
+                  aria-label="Rajouter un fichier"
+                />
 
-              <input
-                v-model="link"
-                class="w-full rounded-md p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
-                type="text"
-                placeholder="Votre lien"
-                aria-label="Rajouter un lien"
-              />
-            </div>
+                <input
+                  v-model="link"
+                  class="w-full rounded-md p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
+                  type="text"
+                  placeholder="Votre lien"
+                  aria-label="Rajouter un lien"
+                />
+              </div>
 
-            <div class="flex justify-center">
-            <button
-              type="button"
-              @click="
-                submitPost();
-                close();
-              "
-              class=" bg-gray-500 hover:bg-gray-600 rounded-md hover:shadow-xl text-white font-bold py-2 px-4  mx-20"
-              :disabled="!validatedFields"
-              :class="{ 'opacity-25 cursor-not-allowed': !validatedFields }"
-            >
-              <span v-if="messages == 'Post publié !'"
-                >Publication en cours...</span
-              >
-              <span v-else>Publier</span>
-            </button>
-            </div>
-            
-          </form>
+              <div class="flex justify-center">
+                <button
+                  type="button"
+                  @click="
+                    submitPost();
+                    close();
+                  "
+                  class=" bg-gray-500 hover:bg-gray-600 rounded-md hover:shadow-xl text-white font-bold py-2 px-4  mx-20"
+                  :disabled="!validatedFields"
+                  :class="{ 'opacity-25 cursor-not-allowed': !validatedFields }"
+                >
+                  <span v-if="messages == 'Post publié !'"
+                    >Publication en cours...</span
+                  >
+                  <span v-else>Publier</span>
+                </button>
+              </div>
+            </form>
           </div>
-          
         </div>
       </div>
     </div>
@@ -143,7 +142,7 @@ export default {
       this.link = null;
       this.$refs.file.value = null;
     },
-    
+
     close() {
       this.$emit("close");
       this.resetForm(); // Reset du formulaire à la fermeture de la modal
