@@ -39,6 +39,7 @@
                   ref="file"
                   label
                   for="image"
+                  name="image"
                   class="w-full rounded-md p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
                   type="file"
                   accept="image/png, image/jpeg, image/gif"
@@ -89,7 +90,11 @@ export default {
   components: { XCircleIcon },
 
   data: function() {
-    return {};
+    return {
+      message: "",
+      link: null,
+      file: null,
+    };
   },
 
   computed: {
@@ -124,7 +129,7 @@ export default {
 
       let formData = new FormData();
 
-      if (this.post.message !== "") {
+      if (this.post.message !== null) {
         formData.append("message", this.post.message);
       }
 
@@ -134,6 +139,7 @@ export default {
       if (this.file !== null) {
         formData.append("image", this.file);
       }
+
       this.$store.dispatch("updatePost", {
         id: id,
         data: formData,

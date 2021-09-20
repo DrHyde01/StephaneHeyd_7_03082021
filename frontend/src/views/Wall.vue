@@ -5,9 +5,9 @@
         class="flex space-y-8 md:space-y-2 lg:flex justify-center items-center flex-wrap m-8"
       >
         <img
-          v-if="$store.state.user.picture !== null"
+          v-if="user.picture !== null"
           class="inline object-cover rounded-full h-24 w-24 border-8 border-gray-300 shadow-md mr-4"
-          :src="$store.state.user.picture"
+          :src="user.picture"
           alt="photo de profil"
         />
         <button
@@ -17,7 +17,7 @@
         >
           <div>
             <h2 class="text-center">
-              Bonjour {{ username }}. Que partagez-vous ce {{ dayName }} ?
+              Bonjour {{ user.username }}. Que partagez-vous ce {{ dayName }} ?
             </h2>
           </div>
 
@@ -74,7 +74,7 @@ export default {
 
   computed: {
     ...mapState({
-      username: (state) => state.user.username,
+      user: (state) => state.user,
       posts: (state) => state.posts,
     }), // Récuparation du nom de l'user connecté
 

@@ -15,6 +15,7 @@ const store = createStore({
       username: "",
       email: "",
       picture: "",
+      description: "",
       isAdmin: false,
       token: "",
     },
@@ -36,15 +37,30 @@ const store = createStore({
 
     AUTH_SUCCES(
       state,
-      { userId, token, userName, userMail, userPicture, userIsAdmin }
+      {
+        userId,
+        token,
+        userName,
+        userFirstName,
+        userLastName,
+        userBirth,
+        userMail,
+        userPicture,
+        userDescription,
+        userIsAdmin,
+      }
     ) {
       // Les infos seront disponibles tant que l'user est connecté
       (state.status = "isConnected"),
         (state.user.userId = userId),
         (state.user.token = token);
       (state.user.username = userName),
+        (state.user.firstName = userFirstName),
+        (state.user.lastName = userLastName),
+        (state.user.birth = userBirth),
         (state.user.email = userMail),
         (state.user.picture = userPicture),
+        (state.user.description = userDescription),
         (state.user.isAdmin = userIsAdmin);
     },
 
@@ -52,8 +68,12 @@ const store = createStore({
       (state.status = "notConnected"),
         (state.user.userId = ""),
         (state.user.username = ""),
+        (state.user.firstName = ""),
+        (state.user.lastName = ""),
+        (state.user.birth = ""),
         (state.user.email = ""),
         (state.user.picture = ""),
+        (state.user.description = ""),
         (state.user.isAdmin = false),
         (state.user.token = ""),
         (state.posts = []),
@@ -167,8 +187,12 @@ const store = createStore({
           .then(function(response) {
             // On récupère les infos dont on a besoin puis on les rajoute au store
             const userName = response.data.username;
+            const userFirstName = response.data.firstName;
+            const userLastName = response.data.lastName;
+            const userBirth = response.data.createdAt;
             const userMail = response.data.email;
             const userPicture = response.data.picture;
+            const userDescription = response.data.description;
             const userIsAdmin = response.data.admin;
 
             // On a besoin du token de l'userId pour la nouvelle mutation de AUTH_SUCCES
@@ -179,8 +203,12 @@ const store = createStore({
               token,
               userId,
               userName,
+              userFirstName,
+              userLastName,
+              userBirth,
               userMail,
               userPicture,
+              userDescription,
               userIsAdmin,
             });
             resolve(response.data);

@@ -9,12 +9,12 @@ export default {
     return API().post("users/auth/login", data);
   },
 
-  getAllUsers(data) {
-    return API().get("users/accounts", data);
+  getAllUsers() {
+    return API().get("users/accounts");
   },
 
-  getUser(id, data) {
-    return API().get("users/accounts/" + id, data);
+  getUser(id) {
+    return API().get("users/accounts/" + id);
   },
 
   updateUser(id, data) {

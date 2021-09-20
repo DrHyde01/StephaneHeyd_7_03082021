@@ -45,8 +45,7 @@
                 <input
                   @change="uploadFile"
                   ref="file"
-                  label
-                  for="image"
+                  name="image"
                   class="w-full rounded-md p-2 mb-6 border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
                   type="file"
                   accept="image/png, image/jpeg, image/gif"
