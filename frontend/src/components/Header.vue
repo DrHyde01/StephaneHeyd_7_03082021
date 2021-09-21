@@ -69,6 +69,10 @@ export default {
 
   computed: {
     ...mapState(["status"]), // Le statut "isConnected" sera recherché dans le store
+
+     userConnected () { // Permet de faire pointer le router vers l'id de l'utilisateur courant
+      return this.$store.state.user.userId 
+    }
   },
 
   methods: {

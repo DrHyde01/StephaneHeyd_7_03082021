@@ -18,10 +18,10 @@ export default {
   },
 
   updateUser(id, data) {
-    return API().put("users/accounts" + id, data);
+    return API().put("users/accounts/" + id, data);
   },
 
   deleteUser(id) {
-    return API().delete("users/accounts" + id);
+    return API().delete("users/accounts/" + id);
   },
 };

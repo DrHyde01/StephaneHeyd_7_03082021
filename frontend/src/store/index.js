@@ -10,15 +10,8 @@ const store = createStore({
 
   state: {
     status: "",
-    user: {
-      userId: "",
-      username: "",
-      email: "",
-      picture: "",
-      description: "",
-      isAdmin: false,
-      token: "",
-    },
+    user: {},
+    users: [],
     posts: [],
     post: {},
 
@@ -64,6 +57,20 @@ const store = createStore({
         (state.user.isAdmin = userIsAdmin);
     },
 
+    GET_OTHER_USER(state, users) {
+      state.users = users;
+    },
+
+    UPDATE_USER(state, users) {
+      state.users = users;
+      state.message = "Profil modifié !";
+    },
+
+    DELETE_USER(state, id) {
+      state.users = [...state.users.filter((element) => element.id !== id)];
+      state.message = "Profil supprimé !";
+    },
+
     LOG_OUT(state) {
       (state.status = "notConnected"),
         (state.user.userId = ""),
@@ -78,6 +85,7 @@ const store = createStore({
         (state.user.token = ""),
         (state.posts = []),
         (state.post = {}),
+        (state.users = {}),
         (state.message = "");
     },
 
@@ -212,6 +220,56 @@ const store = createStore({
               userIsAdmin,
             });
             resolve(response.data);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
+
+    // Récupération d'autres users -------------------------------------------------------------------------
+    getOtherUser: ({ commit }, id) => {
+      return new Promise((resolve, reject) => {
+        userService
+          .getUser(id)
+          .then(function(response) {
+            const users = response.data;
+            commit("GET_OTHER_USER", users); // Risque de comflit avec state.user, plutôt utiliser state.users
+            resolve(response.data);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
+
+    // Mise à jour du profil de l'user ---------------------------------------------------------------------
+    updateUserInfos({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        userService
+          .updateUser(data.id, data.data)
+          .then(function(response) {
+            const user = response.data;
+            commit("UPDATE_USER", user);
+            resolve(response.data);
+          })
+          .then(() => {
+            location.reload()
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    },
+
+    // Suppresion d'un user--------------------------------------------------------------------------------
+    deleteOneUser: ({ commit }, id) => {
+      return new Promise((resolve, reject) => {
+        userService
+          .deleteUser(id)
+          .then(function(response) {
+            commit("DELETE_USER", id); // Le commit permet de supprimer l'élément du store
+            resolve(response);
           })
           .catch(function(error) {
             reject(error);

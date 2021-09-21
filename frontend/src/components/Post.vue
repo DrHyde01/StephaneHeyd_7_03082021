@@ -14,9 +14,12 @@
         </div>
 
         <div class="flex flex-wrap flex-1 items-center">
-          <p class="text-center font-semibold text-gray-600">
+          <router-link :to="`/profil/${post.User.id}`"> <!-- Lien vers le profil du créateur du post -->
+          <p class="text-center font-semibold text-gray-600 hover:text-pink-600">
             {{ post.User.username }}
+            
           </p>
+          </router-link>
           <StatusOnlineIcon
             v-if="$store.state.user.userId == post.User.id"
             class=" h-6 w-6 ml-1 text-green-400"

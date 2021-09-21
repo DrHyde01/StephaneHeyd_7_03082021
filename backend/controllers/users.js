@@ -91,37 +91,56 @@ exports.getAllUsers = (req, res, next) => {
 };
 
 // Mise à jour d'un user -------------------------------------------------------------------------------------
-exports.updateUser = (req, res, next) => {
-  const userObject = req.file // On vérifie si req.file est existant
-    ? {
-        ...JSON.parse(req.body.user), // Si oui on traîte la nouvelle image
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${
-          req.body.filename
-        }`,
+exports.updateUser = async (req, res, next) => {
+  let newPicture;
+  let user = await db.User.findOne({ where: { id: req.params.id } });
+  // Await important ! findOne doit s'éxécuter AVANT !
+
+  // Si nouvelle image celle ci est enregistrée
+  if (req.file) {
+    newPicture = `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`;
+  } else {
+    newPicture = null; // Si aucune image à afficher on retourne null, ce qui évitera un bug d'affichage en front
+  }
+
+  // Et la précédente est supprimée
+  if (user.picture) {
+    const filename = user.picture.split("/images/")[1];
+    fs.unlink(`images/${filename}`, (error) => {
+      if (error) console.log(error);
+      else {
+        console.log(`Deleted file: images/${filename}`);
       }
-    : { ...req.body }; // Si non on traîte uniquement le nouvel objet
+    });
+  }
+
   db.User.findOne({
-    // On recherche l'user en fonction de son id
     where: {
       id: req.params.id,
     },
   })
-    .then((user) => {
-      if (user) {
-        db.User.update(userObject, {
-          // Puis on le met à jour en fonction des infos renseignées
+    .then(() => {
+      db.User.update(
+        { 
+          
+          username: req.body.username,
+          email: req.body.username,
+          description: req.body.description,
+          picture: newPicture,
+          
+        },
+        {
           where: { id: req.params.id },
-        })
-          .then((user) =>
-            res.status(200).json({ message: "Compte mis à jour !" })
-          )
-          .catch((error) => res.status(400).json({ error }));
-      } else {
-        res.status(404).json({ error });
-      }
+        }
+      )
+        .then(() => res.status(200).json({ message: "Compte mis à jour !" }))
+        .catch((error) => res.status(400).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
-};
+
+  }
 
 // Suppression d'un user ---------------------------------------------------------------------------------------
 exports.deleteUser = (req, res, next) => {

@@ -74,6 +74,29 @@ const routes = [
       title: "Groupomania - Profil",
       requiresAuth: true,
     },
+
+    children: [
+      {
+        path: "/profil/modify",
+        name: "modifyProfil",
+        component: () => import("../components/UserModifyModal.vue"),
+        meta: {
+          title: "Groupomania - Modifier le profil",
+          showModal: true,
+          requiresAuth: true,
+        },
+      },
+    ],
+  },
+
+  {
+    path: "/profil/:id",
+    name: "otherProfil",
+    component: () => import("../views/profileOther.vue"),
+    meta: {
+      title: "Groupomania - Profil",
+      requiresAuth: true,
+    },
   },
 
   {

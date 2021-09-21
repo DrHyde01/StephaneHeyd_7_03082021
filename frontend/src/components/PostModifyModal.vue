@@ -91,9 +91,11 @@ export default {
 
   data: function() {
     return {
-      message: "",
-      link: null,
-      file: null,
+      post: {
+        message: "",
+        link: "",
+        file: null,
+      },
     };
   },
 
