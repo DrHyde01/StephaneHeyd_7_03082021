@@ -27,12 +27,22 @@ db.Comment = require("../models/Comment.js")(sequelize, Sequelize);
 db.Like = require("../models/Like.js")(sequelize, Sequelize);
 
 // Mise en place des associations entre tables ----------------------------------
-db.User.hasMany(db.Post);
-db.User.hasMany(db.Comment);
-db.User.hasMany(db.Like);
+db.User.hasMany(db.Post, {
+  onDelete: "CASCADE", // Nécessaire de renseigner onDelete également dans les associations hasMany !
+});
+db.User.hasMany(db.Comment, {
+  onDelete: "CASCADE",
+});
+db.User.hasMany(db.Like, {
+  onDelete: "CASCADE",
+});
 
-db.Post.hasMany(db.Comment);
-db.Post.hasMany(db.Like);
+db.Post.hasMany(db.Comment, {
+  onDelete: "CASCADE",
+});
+db.Post.hasMany(db.Like, {
+  onDelete: "CASCADE",
+});
 
 db.Post.belongsTo(db.User, {
   foreignKey: {

@@ -1,20 +1,24 @@
 <template>
   <div class="flex justify-center w-screen py-20">
     <div class="lg:w-3/6 w-10/12 bg-white py-5 rounded-xl shadow-lg">
-      <div class="flex justify-end mr-4">
-        <button
-          v-if="
-            $store.state.user.userId == users.id ||
-              $store.state.user.isAdmin == true
-          "
-          type="button"
-          title="Modifier votre profil"
-          @click="modifyUser()"
-        >
-          <PencilIcon class="h-8 w-8 mr-4 text-gray-300 hover:text-gray-600" />
-        </button>
-        <modifyModal v-show="showModal" @close="closeModifyProfile" />
+      <div
+        v-if="
+          $store.state.user.userId == users.id ||
+            $store.state.user.isAdmin == true
+        "
+        class="flex justify-end"
+      >
+        <div class="flex">
+          <button
+            type="button"
+            title="Supprimer ce profil"
+            @click="deleteUser(users.id)"
+          >
+            <TrashIcon class="h-8 w-8 mr-4 text-red-400 hover:text-red-600" />
+          </button>
+        </div>
       </div>
+
       <div
         class="flex flex-col space-y-8 md:space-y-12 lg:flex justify-center items-center flex-wrap mb-8 mx-8"
       >
@@ -59,12 +63,12 @@
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
-import modifyUser from "../components/UserModifyModal.vue";
-import { PencilIcon, MailIcon, ChatIcon } from "@heroicons/vue/solid";
+
+import { MailIcon, ChatIcon, TrashIcon } from "@heroicons/vue/solid";
 
 export default {
   name: "Profil",
-  components: { modifyUser, PencilIcon, MailIcon, ChatIcon },
+  components: { MailIcon, ChatIcon, TrashIcon },
 
   data: () => ({
     showModal: false, // La modale ne doit pas d'afficher initialement
@@ -77,6 +81,13 @@ export default {
   created: function() {
     this.moment = moment; // Permet le formatage de la date du post
     moment.locale("fr");
+  },
+
+  methods: {
+    deleteUser(id) {
+      this.$store.dispatch("deleteOneUser", id);
+      this.$router.push("/wall");
+    },
   },
 
   computed: {

@@ -91,11 +91,7 @@ export default {
 
   data: function() {
     return {
-      post: {
-        message: "",
-        link: "",
-        file: null,
-      },
+      file: null,
     };
   },
 

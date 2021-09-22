@@ -103,6 +103,9 @@ export default {
 
     deleteUser(id) {
       this.$store.dispatch("deleteOneUser", id);
+      this.$store.dispatch("logOut").then(() => {
+        this.$router.push("/login");
+      });
     },
   },
 

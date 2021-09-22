@@ -269,6 +269,7 @@ const store = createStore({
           .deleteUser(id)
           .then(function(response) {
             commit("DELETE_USER", id); // Le commit permet de supprimer l'élément du store
+            alert("Utilisateur supprimé ! ❌");
             resolve(response);
           })
           .catch(function(error) {
@@ -281,7 +282,7 @@ const store = createStore({
     logOut: ({ commit }) => {
       return new Promise((resolve) => {
         commit("LOG_OUT");
-        alert("A bientôt 👋");
+        alert("A bientôt sur le réseau Groupomania ! 👋");
         localStorage.clear(); // On purge le localStorage pour remettre le store à zéro
         resolve();
       });
