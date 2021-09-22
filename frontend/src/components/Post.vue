@@ -14,11 +14,13 @@
         </div>
 
         <div class="flex flex-wrap flex-1 items-center">
-          <router-link :to="`/profil/${post.User.id}`"> <!-- Lien vers le profil du créateur du post -->
-          <p class="text-center font-semibold text-gray-600 hover:text-pink-600">
-            {{ post.User.username }}
-            
-          </p>
+          <router-link :to="`/profil/${post.User.id}`">
+            <!-- Lien vers le profil du créateur du post -->
+            <p
+              class="text-center font-semibold text-gray-600 hover:text-pink-600"
+            >
+              {{ post.User.username }}
+            </p>
           </router-link>
           <StatusOnlineIcon
             v-if="$store.state.user.userId == post.User.id"
@@ -269,9 +271,10 @@ export default {
     postLiked() {
       // Le bouton like reste en rose si l'user a déjà liké l'article
       const userId = this.$store.state.user.userId;
-      let userLike = this.post.Likes.map((id) => id.UserId);
-      if (userLike == userId) {
-        // Egalité stricte ne fonctionne pas, à vérifier !
+      let userLike = this.post.Likes.map((id) => id.UserId.toString()); // A convertir pour comparaison avec userId
+      //console.log(typeof userId);
+      //console.log(typeof userLike);
+      if (userLike.includes(userId)) {
         return "h-6 w-6 mr-1 text-pink-600 ";
       } else {
         return "h-6 w-6 mr-1 text-gray-300 hover:text-pink-600";

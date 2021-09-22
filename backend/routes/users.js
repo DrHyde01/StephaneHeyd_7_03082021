@@ -6,9 +6,10 @@ const multer = require('../middleware/multer-config');
 
 const userCtrl = require('../controllers/users') // Utilsiation du modèle User
 const pwdCtrl = require('../middleware/pwdControl'); // Importation du schéma permettant de contrôler la création de password
+const max = require("../middleware/limiter"); // Utilisation d'un limiter pour éviter les trop nombreuses tentatives de connexion
 
 router.post('/auth/signup', pwdCtrl, userCtrl.signup); // Création d'un nouvel user avec contrôle du format de password
-router.post('/auth/login', userCtrl.login); // Connexion d'un user existant 
+router.post('/auth/login', max.limiter, userCtrl.login); // Connexion d'un user existant 
 router.get('/accounts', auth, userCtrl.getAllUsers); // Récupération de tout les users
 router.get('/accounts/:id', auth, userCtrl.getUser); // Récupération des informations d'un user
 router.put('/accounts/:id', auth, multer, userCtrl.updateUser); // Mise à jour d'un user

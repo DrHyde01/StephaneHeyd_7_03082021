@@ -103,8 +103,8 @@ export default {
 
     deleteUser(id) {
       this.$store.dispatch("deleteOneUser", id);
-      this.$store.dispatch("logOut").then(() => {
-        this.$router.push("/login");
+      this.$store.dispatch("logOut").then(() => { // Pour éviter des erreurs la session se ferme après la suppression de l'user
+        this.$router.push("/"); 
       });
     },
   },

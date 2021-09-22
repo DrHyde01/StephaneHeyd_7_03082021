@@ -269,7 +269,6 @@ const store = createStore({
           .deleteUser(id)
           .then(function(response) {
             commit("DELETE_USER", id); // Le commit permet de supprimer l'élément du store
-            alert("Utilisateur supprimé ! ❌");
             resolve(response);
           })
           .catch(function(error) {
