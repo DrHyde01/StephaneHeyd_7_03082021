@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center w-screen py-20">
-    <div class="lg:w-3/6 w-10/12 bg-white py-5 rounded-xl shadow-lg">
+  <div class="flex justify-center w-screen py-20 2xl:py-32">
+    <div class="w-11/12 lg:w-3/6  bg-white py-5 rounded-xl shadow-lg">
       <div class="flex justify-end">
         <div class="flex">
           <button
@@ -44,7 +44,7 @@
           </p>
         </div>
       </div>
-      <div class="flex flex-col m-6 md:m-12 space-y-4">
+      <div class="flex flex-col items-center md:items-start m-6 md:m-12 space-y-4">
         <div class="flex items-center">
           <MailIcon class="h-6 w-6 mr-2 text-gray-600" />
           <p class="font-light">{{ user.email }}</p>
@@ -53,7 +53,7 @@
           <ChatIcon class="h-6 w-6 mr-2 text-gray-600" />
           <p class="font-light">A propos</p>
         </div>
-        <div class="mx-8">
+        <div class="mx-2 md:mx-8">
           <p class="font-light pl-2 border-l-2 border-gray-600 ">
             {{ user.description }}
           </p>

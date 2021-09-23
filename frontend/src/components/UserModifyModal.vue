@@ -6,7 +6,7 @@
           class="absolute overflow-y-auto inset-0 bg-gray-200 backdrop-filter backdrop-blur-md bg-opacity-40"
         >
           <div
-            class="relative z-10 bg-white shadow-xl rounded-xl py-10 px-8 flex flex-col justify-center items-center w-4/5 lg:w-1/3 my-40 mx-auto"
+            class="relative z-10 bg-white shadow-xl rounded-xl py-10 px-8 flex flex-col justify-center items-center w-11/12 lg:w-1/3 my-40 mx-auto"
             role="dialog"
             aria-modal="true"
             aria-label="modal modification de post"

@@ -1,7 +1,7 @@
 <template>
   <nav
     :class="{ scrolled: !view.atTopOfPage }"
-    class="sticky shadow-lg w-full flex items-center justify-between flex-wrap bg-gray-600 h-16 pl-8 pr-8 top-0 z-10 animated
+    class="sticky shadow-lg w-full flex items-center justify-center md:justify-between flex-wrap bg-gray-600 h-24 md:h-16 mt-0 pl-8 pr-8 top-0 z-10 animated
        backdrop-filter backdrop-blur-md bg-opacity-40 border-b border-gray-200"
   >
     <!-- Liens vers nos pages enregistrées dans le routeur -->
@@ -19,7 +19,7 @@
         />
       </router-link>
     </div>
-    <div class="flex flex-end">
+    <div class="flex w-full justify-around md:w-max flex-end">
       <!-- S'affiche uniquement si l'utilisateur est connecté -->
       <template v-if="status == 'isConnected'">
         <router-link to="/wall" class="text-white hover:text-pink-600 mx-3"

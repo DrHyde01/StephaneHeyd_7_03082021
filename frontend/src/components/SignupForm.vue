@@ -56,10 +56,10 @@
     </form>
 
     <div class="mt-6">
-      <p class=" text-sm italic font-thin">
+      <p class=" text-sm text-center italic font-thin">
         Veillez à remplir l'ensemble des informations demandées.
       </p>
-      <p class=" text-sm italic font-thin">
+      <p class=" text-sm text-center italic font-thin">
         Le mot de passe doit contenir au minimum 8 caractères, au moins une
         majuscule, une minuscule, et un chiffre. Il ne doit pas contenir
         d'espaces.

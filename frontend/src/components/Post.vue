@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div
-      class="flex flex-col  lg:mx-20 mx-0 my-4 py-4 px-4 border-2 rounded-md shadow-md"
+      class="flex flex-col mx-2 md:mx-20 my-4 py-4 px-4 border-2 rounded-md shadow-md"
     >
       <div class="flex items-center">
         <div class="flex items-center">

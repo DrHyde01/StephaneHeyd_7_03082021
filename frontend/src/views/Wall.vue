@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center w-screen py-20">
-    <div class="lg:w-3/6 w-10/12 bg-white py-5 rounded-xl shadow-lg">
+    <div class="w-11/12 md:w-5/6 lg:w-3/6  bg-white py-5 rounded-xl shadow-lg">
       <div
         class="flex space-y-8 md:space-y-2 lg:flex justify-center items-center flex-wrap m-8"
       >
