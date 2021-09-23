@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="bottom-0 w-full bg-gray-600 shadow-lg py-5 backdrop-filter backdrop-blur-sm bg-opacity-40"
+    class="bottom-0 w-full bg-gray-800 shadow-lg py-5 backdrop-filter backdrop-blur-sm bg-opacity-40"
   >
     <div
       class="container mx-auto
@@ -10,12 +10,14 @@
         <img
           class="object-contain h-10"
           src="../assets/icons/icon-white-navbar.png"
+          alt="Groupomania logo"
         />
       </router-link>
       <router-link v-else to="/">
         <img
           class="object-contain h-10"
           src="../assets/icons/icon-white-navbar.png"
+          alt="Groupomania logo"
         />
       </router-link>
     </div>

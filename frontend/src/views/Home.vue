@@ -27,7 +27,7 @@
       </button>
       <button
         @click="toSignup()"
-        class="bg-pink-500 hover:bg-pink-600 hover:shadow-xl text-white font-bold py-2 px-4 mt-6 rounded-md"
+        class="bg-pink-600 hover:bg-pink-700 hover:shadow-xl text-white font-bold py-2 px-4 mt-6 rounded-md"
       >
         S'inscrire
       </button>

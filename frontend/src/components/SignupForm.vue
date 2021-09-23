@@ -7,35 +7,41 @@
           class="w-full p-2 mb-6 rounded-md border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="text"
           placeholder="Votre nom"
+          aria-label="nom"
         />
         <input
           v-model="lastName"
           class="w-full p-2 mb-6 rounded-md border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="text"
           placeholder="Votre prénom"
+          aria-label="prénom"
         />
         <input
           v-model="username"
           class="w-full p-2 mb-6 rounded-md border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="text"
           placeholder="Un pseudo"
+          aria-label="pseudo"
         />
         <input
           v-model="email"
           class="w-full p-2 mb-6 rounded-md border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="text"
           placeholder="Votre adresse mail"
+          aria-label="email"
         />
         <input
           v-model="password"
           class="w-full p-2 mb-6 rounded-md border-2 border-gray-400 outline-none focus:ring-2 focus:ring-gray-400"
           type="password"
           placeholder="Un mot de passe"
+          aria-label="mot de passe"
         />
       </div>
       <div>
         <button
           type="button"
+          aria-label="inscription"
           @click="createAccount()"
           class="w-full rounded-md bg-gray-500 hover:bg-gray-600 hover:shadow-xl text-white font-bold py-2 px-4 "
           :disabled="!validatedFields"

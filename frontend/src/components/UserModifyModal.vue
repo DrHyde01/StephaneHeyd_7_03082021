@@ -14,6 +14,7 @@
             <div>
               <button
                 type="button"
+                aria-label="fermer"
                 @click="close"
                 class="absolute -top-4 -right-4"
               >

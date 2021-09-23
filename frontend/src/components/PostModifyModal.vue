@@ -14,11 +14,13 @@
             <div>
               <button
                 type="button"
+                aria-label="fermer"
                 @click="close"
                 class="absolute -top-4 -right-4"
               >
                 <XCircleIcon
                   class="h-10 w-10  text-pink-500 hover:text-pink-600"
+                  aria-label="fermer"
                 />
               </button>
             </div>

@@ -63,14 +63,14 @@
         v-if="post.imageURL !== null"
         class="flex justify-center border my-4 max-h-80"
       >
-        <img class="inline object-cover" :src="post.imageURL" />
+        <img class="inline object-cover" :src="post.imageURL" alt="image postée" />
       </div>
 
       <div
         v-if="post.link !== null"
         class="flex justify-center border my-4 max-h-80"
       >
-        <img class="inline object-cover" :src="post.link" />
+        <img class="inline object-cover" :src="post.link" alt="gif posté" />
       </div>
 
       <div class="flex flex-wrap mx-4 my-2">
