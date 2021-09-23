@@ -18,6 +18,7 @@ export default {
 
 <style>
 #app {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-image: url("../public/background.jpg");

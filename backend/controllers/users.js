@@ -126,7 +126,7 @@ exports.updateUser = async (req, res, next) => {
         { 
           
           username: req.body.username,
-          email: req.body.username,
+          email: req.body.email,
           description: req.body.description,
           picture: newPicture,
           

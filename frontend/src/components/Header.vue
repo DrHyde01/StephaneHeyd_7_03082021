@@ -1,7 +1,7 @@
 <template>
   <nav
     :class="{ scrolled: !view.atTopOfPage }"
-    class="sticky shadow-lg w-full flex items-center justify-between flex-wrap bg-gray-600 h-16 m-auto pl-8 pr-8 top-0 z-10 animated
+    class="sticky shadow-lg w-full flex items-center justify-between flex-wrap bg-gray-600 h-16 pl-8 pr-8 top-0 z-10 animated
        backdrop-filter backdrop-blur-md bg-opacity-40 border-b border-gray-200"
   >
     <!-- Liens vers nos pages enregistrées dans le routeur -->
