@@ -24,8 +24,8 @@ Clonez le repo : `https://github.com/DrHyde01/StephaneHeyd_7_03082021.git`
 
 #### Pour le backend suivez ces instructions :
 * Placez vous dans le dossier backend
-* Installez Nodemon via `npm install -g nodemon`
-* Lancez le service en tapant `nodemon`
+* Initialisez les packages via la commande `npm install`
+* Lancez le backend en tapant ensuite `nodemon`
 * Vérifiez bien que le backend communique via le port `:3000`
 
 #### Mettez en place la base de données de cette manière :

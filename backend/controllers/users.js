@@ -101,12 +101,10 @@ exports.updateUser = async (req, res, next) => {
     newPicture = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`;
-  } else {
-    newPicture = null; // Si aucune image à afficher on retourne null, ce qui évitera un bug d'affichage en front
   }
 
   // Et la précédente est supprimée
-  if (user.picture) {
+  if (newPicture && user.picture) {
     const filename = user.picture.split("/images/")[1];
     fs.unlink(`images/${filename}`, (error) => {
       if (error) console.log(error);
@@ -123,13 +121,11 @@ exports.updateUser = async (req, res, next) => {
   })
     .then(() => {
       db.User.update(
-        { 
-          
+        {
           username: req.body.username,
           email: req.body.email,
           description: req.body.description,
           picture: newPicture,
-          
         },
         {
           where: { id: req.params.id },
@@ -139,8 +135,7 @@ exports.updateUser = async (req, res, next) => {
         .catch((error) => res.status(400).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
-
-  }
+};
 
 // Suppression d'un user ---------------------------------------------------------------------------------------
 exports.deleteUser = (req, res, next) => {

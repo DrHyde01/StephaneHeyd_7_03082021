@@ -134,7 +134,7 @@ export default {
 
       let id = this.$store.state.user.userId;
 
-      let formData = new FormData();
+      const formData = new FormData();
 
       if (this.username !== "") {
         formData.append("username", this.username);

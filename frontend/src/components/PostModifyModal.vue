@@ -61,7 +61,7 @@
                 <button
                   type="button"
                   @click="
-                    submitPost();
+                    modifyPost();
                     close();
                   "
                   class=" bg-gray-500 hover:bg-gray-600 rounded-md hover:shadow-xl text-white font-bold py-2 px-4  mx-20"
@@ -122,12 +122,12 @@ export default {
       this.file = file;
     },
 
-    submitPost: function() {
+    modifyPost: function() {
       // Même schéma que pour la création des posts, mis à part que le payload comporte l'id du post en plus du data
 
       let id = this.$route.params.id;
 
-      let formData = new FormData();
+      const formData = new FormData();
 
       if (this.post.message !== null) {
         formData.append("message", this.post.message);

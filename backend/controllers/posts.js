@@ -137,12 +137,10 @@ exports.updatePost = async (req, res, next) => {
     newImageUrl = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`;
-  } else {
-    newImageUrl = null; // Si aucune image à afficher on retourne null, ce qui évitera un bug d'affichage en front
   }
 
   // Et la précédente est supprimée
-  if (post.imageURL) {
+  if (newImageUrl && post.imageURL) {
     const filename = post.imageURL.split("/images/")[1];
     fs.unlink(`images/${filename}`, (error) => {
       if (error) console.log(error);
