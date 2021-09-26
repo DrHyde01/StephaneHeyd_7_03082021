@@ -38,5 +38,5 @@ Clonez le repo : `https://github.com/DrHyde01/StephaneHeyd_7_03082021.git`
 * Un compte admin est déjà disponible, connectez-vous avec l'identifiant `Admin`et le mot de passe `Admin12345@`
 * ENJOY ! 🙂
 
-#### Complément : API Guidelines  
+### Complément : API Guidelines  ::mag:
 https://documenter.getpostman.com/view/16558990/UUxxhUAG
