@@ -1,9 +1,8 @@
-const db = require("../models");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const fs = require("fs");
+const db = require("../models"); // Récupération des modèles Sequelize
+const bcrypt = require("bcrypt"); // Bcrypt permet de crypter le password et de le comparer
+const jwt = require("jsonwebtoken"); // Jwt necessaire pour la création d'un token
+const fs = require("fs"); // FS est un module de Node permettant les opérations sur les fichiers
 
-const Op = db.Sequelize.Op;
 
 // Gestion de la création d'un utilisateur et cryptage du mot de passe  ---------------------------------------------------------------
 exports.signup = (req, res, next) => {
@@ -35,7 +34,7 @@ exports.login = (req, res, next) => {
     },
   }).then((user) => {
     if (!user) {
-      return res.status(401).json({ error: "Utilisateur inexistant !" }); // Si non un message d'erreur est retourné
+      return res.status(401).json({ error: "Utilisateur inexistant !" }); // Si user inexistant un message d'erreur est retourné
     }
     bcrypt
       .compare(req.body.password, user.password) // On compare les hash de mot de passe transmis avec celui en mémoire
@@ -44,7 +43,7 @@ exports.login = (req, res, next) => {
           return res.status(401).json({ error: "Mot de passe incorrect !" });
         }
         res.status(200).json({
-          // Si OK un token est renvoyé au frontend avec un user id
+          // Si OK un token est renvoyé au frontend avec un user id, et un message de bienvenue
           userId: user.id,
           token: jwt.sign(
             // Sign permet d'encoder un nouveau token
@@ -75,7 +74,7 @@ exports.getUser = (req, res, next) => {
 exports.getAllUsers = (req, res, next) => {
   db.User.findAll({
     attributes: [
-      // Le tableau correspond aux informations demandées
+      // Le tableau correspond aux informations demandées à la BDD
       "id",
       "firstName",
       "lastName",
@@ -96,14 +95,14 @@ exports.updateUser = async (req, res, next) => {
   let user = await db.User.findOne({ where: { id: req.params.id } });
   // Await important ! findOne doit s'éxécuter AVANT !
 
-  // Si nouvelle image celle ci est enregistrée
+  // Si nouvelle image transmise celle ci est enregistrée
   if (req.file) {
     newPicture = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`;
   }
 
-  // Et la précédente est supprimée
+  // Si nouvelle image, et image précédente existante, cette dernière est supprimée
   if (newPicture && user.picture) {
     const filename = user.picture.split("/images/")[1];
     fs.unlink(`images/${filename}`, (error) => {
@@ -125,7 +124,7 @@ exports.updateUser = async (req, res, next) => {
           username: req.body.username,
           email: req.body.email,
           description: req.body.description,
-          picture: newPicture,
+          picture: newPicture, // Si nouvelle image, son chemin est enregistré dans la BDD
         },
         {
           where: { id: req.params.id },
@@ -146,14 +145,13 @@ exports.deleteUser = (req, res, next) => {
   })
     .then((user) => {
       if (user.picture !== null) {
-        // Si photo de profil présente la supprime du répertoire, puis on supprime l'user de la BDD
+        // Si photo de profil présente on la supprime du répertoire, puis on supprime l'user de la BDD
         const filename = user.picture.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
           db.User.destroy({ where: { id: req.params.id } });
           res.status(200).json({ message: "Compte supprimé !" });
         });
-      } else {
-        // Sinon on supprime uniquement l'user
+      } else { // Sinon on supprime uniquement l'user
         db.User.destroy({ where: { id: req.params.id } });
         res.status(200).json({ message: "Compte supprimé !" });
       }

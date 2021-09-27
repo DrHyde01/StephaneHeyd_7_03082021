@@ -9,7 +9,7 @@
 
 <script>
 
-// Utilisation du formulaire de connexion
+// Utilisation du component formulaire de connexion
 import loginForm from '../components/LoginForm.vue';
 
 export default {

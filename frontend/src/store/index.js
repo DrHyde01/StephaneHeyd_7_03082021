@@ -4,11 +4,11 @@ import createPersistedState from "vuex-persistedstate";
 import userService from "../services/auth";
 import postService from "../services/posts";
 
-// Le store fait office de middleware pour gérer les différentes actions de l'utilisateur --------------------------
+// Le store fait office de middleware pour gérer les différentes actions de l'utilisateur, il permet entre autre de stocker des informations qui pourront être récupérées ou modifiées --------------------------
 const store = createStore({
   plugins: [createPersistedState()], // Ce plugin va permettre de garder le state intact si la page est rafraîchie
 
-  state: {
+  state: { // Etat initial du store
     status: "",
     user: {},
     users: [],
@@ -18,7 +18,7 @@ const store = createStore({
     message: "",
   },
 
-  mutations: {
+  mutations: { // Mutations qui modifiront le store en fonction des opérations effectuées
     // USERS ------------------------------------------------------------------------------------------------------
     CREATE_SUCCES(state) {
       state.status = "accountCreated";
@@ -142,7 +142,7 @@ const store = createStore({
     authStatus: (state) => state.status,
   },
 
-  actions: {
+  actions: { // Les différentes requêtes CRUD sont renseignées ici, elles modifient le store via les commit
     // USERS ---------------------------------------------------------------------------------------------------
 
     // Création de l'user ---------------------------------------------------------------

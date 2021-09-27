@@ -6,7 +6,7 @@
 </template>
 
 <script>
-// Utilisaton du header pour l'ensemble de l'app
+// Utilisaton du header et du footer pour l'ensemble de l'app
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 

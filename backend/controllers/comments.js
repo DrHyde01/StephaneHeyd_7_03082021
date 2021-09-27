@@ -1,8 +1,9 @@
-const db = require("../models");
-const jwt = require("jsonwebtoken");
+const db = require("../models"); // Récupération des modèles Sequelize
+const jwt = require("jsonwebtoken"); // Jwt necessaire pour la gestion d'un token
 
-// Création d'un commentaire -----------------------------------------------------
+// Création d'un commentaire ---------------------------------------------------------------------------
 exports.createComment = (req, res, next) => {
+  // Nous avons besoin de récupérer l'userId par l'intermédiaire du token, à defaut du store frontend
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   const userId = decodedToken.userId;

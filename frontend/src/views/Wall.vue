@@ -76,7 +76,7 @@ export default {
     ...mapState({
       user: (state) => state.user,
       posts: (state) => state.posts,
-    }), // Récuparation du nom de l'user connecté
+    }),
 
     dayName() {
       // Récupération du jour actuel

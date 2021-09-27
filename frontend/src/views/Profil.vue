@@ -83,7 +83,7 @@ export default {
   }),
 
   beforeMount() {
-    this.$store.dispatch("getUserInfos");
+    this.$store.dispatch("getUserInfos"); // On veut récupérer les infos de l'user dès le chargement
   },
   created: function() {
     this.moment = moment; // Permet le formatage de la date du post

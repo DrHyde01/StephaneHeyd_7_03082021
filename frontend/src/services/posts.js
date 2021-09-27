@@ -1,3 +1,4 @@
+// Déclaration des différentes instances Axios pour les opérations Posts ----------------------------------
 import API from "./apiService";
 
 export default {

@@ -1,10 +1,10 @@
-const db = require("../models");
-const fs = require("fs");
-const jwt = require("jsonwebtoken");
+const db = require("../models"); // Récupération des modèles Sequelize
+const fs = require("fs"); // FS est un module de Node permettant les opérations sur les fichiers
+const jwt = require("jsonwebtoken"); // Jwt necessaire pour la gestion d'un token
 
-// Création d'un post --------------------------------------------------------------------------
+// Création d'un post ---------------------------------------------------------------------------------
 exports.createPost = (req, res, next) => {
-  // Nous avons besoin de récupérer l'userId par l'intermédiaire du token
+  // Nous avons besoin de récupérer l'userId par l'intermédiaire du token, à defaut du store frontend
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   const userId = decodedToken.userId;
@@ -16,7 +16,7 @@ exports.createPost = (req, res, next) => {
       id: userId,
     },
   })
-    // Et enregistrons son post dans la BDD
+    // Et enregistrons son image, si présente
     .then(() => {
       let imageUrl;
       if (req.file) {
@@ -27,6 +27,7 @@ exports.createPost = (req, res, next) => {
         imageURL = null;
       }
 
+      // Puis on renseigne le post dans la BDD
       db.Post.create({
         message: req.body.message,
         imageURL: imageUrl,
@@ -38,13 +39,13 @@ exports.createPost = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-// Obtention d'un post par l'user id ------------------------------------------------------------------
+// Obtention d'un post par son id ------------------------------------------------------------------
 exports.getOnePost = (req, res, next) => {
   db.Post.findOne({
     where: {
       id: req.params.id,
     },
-    // On inclue également les infos user, like, comment, liées au post
+    // On inclue également les infos user, like, comment, liées au post, qui nous serons utiles 
     include: [
       {
         model: db.User,
@@ -139,7 +140,7 @@ exports.updatePost = async (req, res, next) => {
     }`;
   }
 
-  // Et la précédente est supprimée
+  // Si nouvelle image, et image précédente existante, cette dernière est supprimée
   if (newImageUrl && post.imageURL) {
     const filename = post.imageURL.split("/images/")[1];
     fs.unlink(`images/${filename}`, (error) => {
@@ -159,7 +160,7 @@ exports.updatePost = async (req, res, next) => {
       db.Post.update(
         {
           message: req.body.message,
-          imageURL: newImageUrl,
+          imageURL: newImageUrl, // Si nouvelle image, son chemin est enregistré dans la BDD
           link: req.body.link,
         },
         {
@@ -181,6 +182,7 @@ exports.deletePost = (req, res, next) => {
   })
     .then((post) => {
       if (post.imageURL !== null) {
+        // Si image présente on la supprime du répertoire, puis on supprime le post de la BDD
         const filename = post.imageURL.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
           db.Post.destroy(
@@ -189,7 +191,7 @@ exports.deletePost = (req, res, next) => {
           );
           res.status(200).json({ message: "Post supprimé !" });
         });
-      } else {
+      } else { // Sinon on supprime uniquement le post
         db.Post.destroy(
           { where: { id: post.id } },
           { truncate: true, restartIdentity: true }

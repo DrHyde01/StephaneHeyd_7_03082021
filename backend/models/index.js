@@ -2,7 +2,7 @@
 const config = require("../config/db.config.js");
 
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
+const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, { // Nouvelle instance Sequelize
   host: config.HOST,
   dialect: config.dialect,
   operatorsAliases: 0,
@@ -20,13 +20,13 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// Necessaire à la création ou la MAJ de nos tables ------------------------------
+// Déclaration des modèles qui seront utilisés pour les diverses opérations CRUD ------------------------------
 db.User = require("../models/User.js")(sequelize, Sequelize);
 db.Post = require("../models/Post.js")(sequelize, Sequelize);
 db.Comment = require("../models/Comment.js")(sequelize, Sequelize);
 db.Like = require("../models/Like.js")(sequelize, Sequelize);
 
-// Mise en place des associations entre tables ----------------------------------
+// Mise en place des associations entre tables ---------------------------------------------------------------
 db.User.hasMany(db.Post, {
   onDelete: "CASCADE", // Nécessaire de renseigner onDelete également dans les associations hasMany !
 });

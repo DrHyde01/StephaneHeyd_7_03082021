@@ -9,7 +9,7 @@
 
 <script>
 
-// Utilisation du formulaire de connexion
+// Utilisation du component formulaire de connexion
 import signupForm from '../components/SignupForm.vue';
 
 export default {

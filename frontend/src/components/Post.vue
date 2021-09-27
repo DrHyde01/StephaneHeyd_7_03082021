@@ -31,7 +31,7 @@
           </p>
         </div>
 
-        <!-- Si l'user est le propriétaire du post ou l'admin on l'autorise la modification ou la suppresion -->
+        <!-- Si l'user est le propriétaire du post ou l'admin on autorise la modification ou la suppression -->
         <div
           class="flex flex-2 items-center justify-center"
           v-if="
@@ -224,7 +224,7 @@ export default {
     },
   }),
 
-  props: {
+  props: { // On récupére post du parent, donc de Wall.vue
     post: {
       type: Object,
     },

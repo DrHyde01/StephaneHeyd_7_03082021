@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import store from "../store/index";
 
-// Ajout des différentes pages du projet ----------------------------------------------
+// Ajout des différentes routes du projet ----------------------------------------------
 const routes = [
   {
     path: "/",
@@ -39,7 +39,7 @@ const routes = [
       requiresAuth: true, // Authentification requise, cf fonction beforeEach plus bas
     },
 
-    children: [
+    children: [ // Ajout de routes nestées pour les modales d'ajout ou modification de post
       {
         path: "/posts/add",
         name: "addPost",
@@ -75,7 +75,7 @@ const routes = [
       requiresAuth: true,
     },
 
-    children: [
+    children: [ // Ajout de routes nestées pour la modale de modification user
       {
         path: "/profil/modify",
         name: "modifyProfil",
@@ -128,7 +128,7 @@ router.beforeEach((to, from, next) => {
       return;
     }
     next("/login"); // Dans le cas échéant l'user est redirigé vers la page de connexion
-    alert("Bien essayé mais il va falloir se connecter ! 😀"); // NE PAS LAISSER ! ❌
+    alert("Bien essayé mais il va falloir se connecter ! 😀"); // Alerte transmise
   } else {
     next();
   }
