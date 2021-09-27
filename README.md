@@ -13,6 +13,7 @@ Le projet Groupomania repose sur les axes suivants :
 * La sécurisation de l'application dans son ensemble
 
 ### Installation :computer:  
+***
 Clonez le repo : `https://github.com/DrHyde01/StephaneHeyd_7_03082021.git` 
 
 #### Pour lancer le frontend : 
@@ -38,5 +39,6 @@ Clonez le repo : `https://github.com/DrHyde01/StephaneHeyd_7_03082021.git`
 * Un compte admin est déjà disponible, connectez-vous avec l'identifiant `Admin`et le mot de passe `Admin12345@`
 * ENJOY ! 🙂
 
-### Complément : API Guidelines  ::mag:
-https://documenter.getpostman.com/view/16558990/UUxxhUAG
+### Complément : API Guidelines :mag:
+***
+* https://documenter.getpostman.com/view/16558990/UUxxhUAG
