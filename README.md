@@ -32,7 +32,7 @@ Clonez le repo : `https://github.com/DrHyde01/StephaneHeyd_7_03082021.git`
 * Connectez vous au serveur MySQL
 * Lancez la commande suivante pour créer la base de données : `CREATE DATABASE groupomania`
 * Récupérez l'identifiant de connexion dans le fichier .env situé à la racine du dossier Backend
-* Importez enfin le fichier .sql disponible dans le dossier DB du Backend en tapant la commande suivante : `mysql -u DrHyde -p groupomania < groupomania.sql`
+* Importez enfin le fichier .sql disponible dans le dossier DB du Backend en tapant la commande suivante : `mysql -u DrHyde -p groupomania < sauvegarde.sql`
 
 #### Enfin vous pouvez accèder à l'application ! 
 * Lancez la via http://localhost:8080/
