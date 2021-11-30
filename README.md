@@ -1,6 +1,12 @@
 # Projet 7 OpenClassrooms
 ## Groupomania  :raised_hands:	
 
+![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Sequelize](https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+
 Dernier effort pour le parcours WebDev de Openclassrooms, ce projet repose sur la création d'un réseau social 
 d'entreprise en se basant sur l'usage d'un framework et des compétances acquises tout le long du parcours. 
 
