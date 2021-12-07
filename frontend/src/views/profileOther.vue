@@ -79,7 +79,7 @@ export default {
   },
 
   created: function() {
-    this.moment = moment; // Permet le formatage de la date du post
+    this.moment = moment; // Permet le formatage de la date de création
     moment.locale("fr");
   },
 

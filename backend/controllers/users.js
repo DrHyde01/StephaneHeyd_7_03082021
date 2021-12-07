@@ -1,5 +1,5 @@
 const db = require("../models"); // Récupération des modèles Sequelize
-const bcrypt = require("bcrypt"); // Bcrypt permet de crypter le password et de le comparer
+const bcrypt = require("bcryptjs"); // Bcrypt permet de crypter le password et de le comparer
 const jwt = require("jsonwebtoken"); // Jwt necessaire pour la création d'un token
 const fs = require("fs"); // FS est un module de Node permettant les opérations sur les fichiers
 

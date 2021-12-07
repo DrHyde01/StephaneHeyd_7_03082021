@@ -59,7 +59,7 @@ exports.deleteComment = (req, res, next) => {
         id: req.params.id,
       },
     },
-    { truncate: true }
+    //{ truncate: true }
   )
     .then(() => res.status(200).json({ message: "Commentaire supprimé !" }))
 

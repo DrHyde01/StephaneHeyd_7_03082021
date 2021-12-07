@@ -259,7 +259,7 @@ export default {
         id: id,
         data: this.data,
       });
-      this.data.comment = ""; // Supprime le commentaire après l'envoi
+      this.data.comment = ""; // Supprime le commentaire du data après l'envoi, permet de fermer la div
     },
 
     deleteComment(id) {
