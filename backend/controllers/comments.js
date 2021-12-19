@@ -10,7 +10,7 @@ exports.createComment = (req, res, next) => {
 
   db.Post.findOne({
     where: {
-      id: req.params.id,
+      id: req.params.id || null,
       UserID: userId,
     },
   });

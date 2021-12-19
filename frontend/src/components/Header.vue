@@ -2,7 +2,7 @@
   <nav
     :class="{ scrolled: !view.atTopOfPage }"
     class="sticky shadow-lg w-full flex items-center justify-center md:justify-between flex-wrap bg-gray-800 h-24 md:h-16 mt-0 pl-8 pr-8 top-0 z-10 animated
-       backdrop-filter backdrop-blur-md bg-opacity-40 border-b border-gray-200"
+       backdrop-filter backdrop-blur-md bg-opacity-40 f border-b border-gray-200" 
   >
     <!-- Liens vers nos pages enregistrées dans le routeur -->
     <div class="flex flex-start">
